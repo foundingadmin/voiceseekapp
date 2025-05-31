@@ -64,10 +64,9 @@ function determineArchetype(scores: Record<string, number>): VoiceArchetype {
 export function ResultsScreen({ scores, userData, onRetake }: ResultsScreenProps) {
   const [selectedArchetype, setSelectedArchetype] = useState<VoiceArchetype | null>(null);
   const [formStatus, setFormStatus] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle');
-  const [shareStatus, setShareStatus] = useState<'idle' | 'preparing' | 'success' | 'error'>('idle');
   const chartRef = useRef<HTMLDivElement>(null);
   const formRef = useRef<HTMLFormElement>(null);
-  const modalRef = useRef<HTMLDivElement>(null);
+  const previewRef = useRef<HTMLDivElement>(null);
   const traits = Object.keys(scores) as TraitName[];
   const values = traits.map(trait => scores[trait]);
   const maxScore = Math.max(...values);
@@ -83,7 +82,9 @@ export function ResultsScreen({ scores, userData, onRetake }: ResultsScreenProps
   useEffect(() => {
     // Update Open Graph meta tags
     const titleTag = document.querySelector('meta[property="og:title"]');
+    const imageTag = document.querySelector('meta[property="og:image"]');
     const descriptionTag = document.querySelector('meta[property="og:description"]');
+    const urlTag = document.querySelector('meta[property="og:url"]');
     
     if (titleTag) {
       titleTag.setAttribute('content', `My VoiceSeek Result: ${matchingArchetype.name}`);
@@ -93,6 +94,23 @@ export function ResultsScreen({ scores, userData, onRetake }: ResultsScreenProps
       descriptionTag.setAttribute('content', 
         `I discovered my brand voice archetype: ${matchingArchetype.name}. My top traits are ${topTraits.join(', ')}. Find yours in 3 minutes!`
       );
+    }
+
+    if (urlTag) {
+      urlTag.setAttribute('content', window.location.href);
+    }
+
+    // Generate preview image
+    if (chartRef.current) {
+      html2canvas(chartRef.current, {
+        backgroundColor: '#000000',
+        scale: 2,
+      }).then(canvas => {
+        const imageUrl = canvas.toDataURL('image/png');
+        if (imageTag) {
+          imageTag.setAttribute('content', imageUrl);
+        }
+      });
     }
   }, [matchingArchetype, topTraits]);
 
