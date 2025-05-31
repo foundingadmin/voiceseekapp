@@ -64,9 +64,11 @@ function determineArchetype(scores: Record<string, number>): VoiceArchetype {
 export function ResultsScreen({ scores, userData, onRetake }: ResultsScreenProps) {
   const [selectedArchetype, setSelectedArchetype] = useState<VoiceArchetype | null>(null);
   const [formStatus, setFormStatus] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle');
+  const [previewImage, setPreviewImage] = useState<string | null>(null);
+  const [isUploading, setIsUploading] = useState(false);
   const chartRef = useRef<HTMLDivElement>(null);
   const formRef = useRef<HTMLFormElement>(null);
-  const previewRef = useRef<HTMLDivElement>(null);
+  const modalRef = useRef<HTMLDivElement>(null);
   const traits = Object.keys(scores) as TraitName[];
   const values = traits.map(trait => scores[trait]);
   const maxScore = Math.max(...values);
@@ -80,39 +82,61 @@ export function ResultsScreen({ scores, userData, onRetake }: ResultsScreenProps
   const matchingArchetype = determineArchetype(scores);
 
   useEffect(() => {
-    // Update Open Graph meta tags
-    const titleTag = document.querySelector('meta[property="og:title"]');
-    const imageTag = document.querySelector('meta[property="og:image"]');
-    const descriptionTag = document.querySelector('meta[property="og:description"]');
-    const urlTag = document.querySelector('meta[property="og:url"]');
-    
-    if (titleTag) {
-      titleTag.setAttribute('content', `My VoiceSeek Result: ${matchingArchetype.name}`);
-    }
-    
-    if (descriptionTag) {
-      descriptionTag.setAttribute('content', 
-        `I discovered my brand voice archetype: ${matchingArchetype.name}. My top traits are ${topTraits.join(', ')}. Find yours in 3 minutes!`
-      );
-    }
+    const generateAndUploadPreview = async () => {
+      if (!chartRef.current || isUploading) return;
 
-    if (urlTag) {
-      urlTag.setAttribute('content', window.location.href);
-    }
+      try {
+        setIsUploading(true);
+        const canvas = await html2canvas(chartRef.current, {
+          backgroundColor: '#000000',
+          scale: 2,
+        });
 
-    // Generate preview image
-    if (chartRef.current) {
-      html2canvas(chartRef.current, {
-        backgroundColor: '#000000',
-        scale: 2,
-      }).then(canvas => {
-        const imageUrl = canvas.toDataURL('image/png');
-        if (imageTag) {
-          imageTag.setAttribute('content', imageUrl);
+        const dataUrl = canvas.toDataURL('image/png');
+        
+        // Upload to ImgBB through Netlify Function
+        const response = await fetch('/.netlify/functions/upload-image', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ image: dataUrl }),
+        });
+
+        if (!response.ok) {
+          throw new Error('Failed to upload image');
         }
-      });
-    }
-  }, [matchingArchetype, topTraits]);
+
+        const { url } = await response.json();
+        setPreviewImage(url);
+
+        // Update Open Graph meta tags
+        const imageTag = document.querySelector('meta[property="og:image"]');
+        const titleTag = document.querySelector('meta[property="og:title"]');
+        const descriptionTag = document.querySelector('meta[property="og:description"]');
+        
+        if (imageTag) {
+          imageTag.setAttribute('content', url);
+        }
+        
+        if (titleTag) {
+          titleTag.setAttribute('content', `My VoiceSeek Result: ${matchingArchetype.name}`);
+        }
+        
+        if (descriptionTag) {
+          descriptionTag.setAttribute('content', 
+            `I discovered my brand voice archetype: ${matchingArchetype.name}. My top traits are ${topTraits.join(', ')}. Find yours in 3 minutes!`
+          );
+        }
+      } catch (error) {
+        console.error('Error generating/uploading preview:', error);
+      } finally {
+        setIsUploading(false);
+      }
+    };
+
+    generateAndUploadPreview();
+  }, [matchingArchetype, topTraits, isUploading]);
 
   const handleLinkedInShare = () => {
     const shareUrl = encodeURIComponent(window.location.href);
@@ -259,9 +283,10 @@ export function ResultsScreen({ scores, userData, onRetake }: ResultsScreenProps
           <button
             onClick={handleLinkedInShare}
             className="flex items-center gap-2 text-green-400 hover:text-green-300 transition-colors bg-gray-900/50 px-4 py-2 rounded-full"
+            disabled={isUploading}
           >
             <Linkedin className="w-4 h-4" />
-            <span>Share on LinkedIn</span>
+            <span>{isUploading ? 'Preparing Share...' : 'Share on LinkedIn'}</span>
           </button>
         </div>
 
