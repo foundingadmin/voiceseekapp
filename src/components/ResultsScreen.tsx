@@ -66,6 +66,7 @@ export function ResultsScreen({ scores, userData, onRetake }: ResultsScreenProps
   const [formStatus, setFormStatus] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle');
   const [previewImage, setPreviewImage] = useState<string | null>(null);
   const [isUploading, setIsUploading] = useState(false);
+  const [uploadError, setUploadError] = useState<string | null>(null);
   const chartRef = useRef<HTMLDivElement>(null);
   const formRef = useRef<HTMLFormElement>(null);
   const modalRef = useRef<HTMLDivElement>(null);
@@ -87,9 +88,16 @@ export function ResultsScreen({ scores, userData, onRetake }: ResultsScreenProps
 
       try {
         setIsUploading(true);
-        const canvas = await html2canvas(chartRef.current, {
+        setUploadError(null);
+
+        // Capture the chart with padding and styling
+        const chartElement = chartRef.current;
+        const canvas = await html2canvas(chartElement, {
           backgroundColor: '#000000',
           scale: 2,
+          logging: false,
+          windowWidth: chartElement.scrollWidth * 2,
+          windowHeight: chartElement.scrollHeight * 2
         });
 
         const dataUrl = canvas.toDataURL('image/png');
@@ -111,34 +119,39 @@ export function ResultsScreen({ scores, userData, onRetake }: ResultsScreenProps
         setPreviewImage(url);
 
         // Update Open Graph meta tags
-        const imageTag = document.querySelector('meta[property="og:image"]');
-        const titleTag = document.querySelector('meta[property="og:title"]');
-        const descriptionTag = document.querySelector('meta[property="og:description"]');
-        
-        if (imageTag) {
-          imageTag.setAttribute('content', url);
-        }
-        
-        if (titleTag) {
-          titleTag.setAttribute('content', `My VoiceSeek Result: ${matchingArchetype.name}`);
-        }
-        
-        if (descriptionTag) {
-          descriptionTag.setAttribute('content', 
-            `I discovered my brand voice archetype: ${matchingArchetype.name}. My top traits are ${topTraits.join(', ')}. Find yours in 3 minutes!`
-          );
-        }
+        const metaTags = {
+          'og:image': url,
+          'og:title': `My VoiceSeek Result: ${matchingArchetype.name}`,
+          'og:description': `I discovered my brand voice archetype: ${matchingArchetype.name}. My top traits are ${topTraits.join(', ')}. Find yours in 3 minutes!`
+        };
+
+        Object.entries(metaTags).forEach(([property, content]) => {
+          let tag = document.querySelector(`meta[property="${property}"]`);
+          if (!tag) {
+            tag = document.createElement('meta');
+            tag.setAttribute('property', property);
+            document.head.appendChild(tag);
+          }
+          tag.setAttribute('content', content);
+        });
+
       } catch (error) {
         console.error('Error generating/uploading preview:', error);
+        setUploadError('Failed to prepare share preview. Please try again.');
       } finally {
         setIsUploading(false);
       }
     };
 
     generateAndUploadPreview();
-  }, [matchingArchetype, topTraits, isUploading]);
+  }, [matchingArchetype, topTraits]);
 
   const handleLinkedInShare = () => {
+    if (uploadError) {
+      alert('Unable to share: ' + uploadError);
+      return;
+    }
+    
     const shareUrl = encodeURIComponent(window.location.href);
     const width = 550;
     const height = 400;
@@ -282,13 +295,19 @@ export function ResultsScreen({ scores, userData, onRetake }: ResultsScreenProps
           </button>
           <button
             onClick={handleLinkedInShare}
-            className="flex items-center gap-2 text-green-400 hover:text-green-300 transition-colors bg-gray-900/50 px-4 py-2 rounded-full"
+            className="flex items-center gap-2 text-green-400 hover:text-green-300 transition-colors bg-gray-900/50 px-4 py-2 rounded-full disabled:opacity-50 disabled:cursor-not-allowed"
             disabled={isUploading}
           >
             <Linkedin className="w-4 h-4" />
             <span>{isUploading ? 'Preparing Share...' : 'Share on LinkedIn'}</span>
           </button>
         </div>
+
+        {uploadError && (
+          <div className="text-red-400 text-center mb-4">
+            {uploadError}
+          </div>
+        )}
 
         <div className="bg-gray-900 rounded-2xl shadow-xl p-8 mb-8 relative border border-gray-800">
           <h1 className="text-3xl font-bold text-gray-100 mb-2">Your Voice Archetype:</h1>
