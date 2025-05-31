@@ -102,32 +102,26 @@ export function ResultsScreen({ scores, userData, onRetake }: ResultsScreenProps
     setShareStatus('preparing');
     
     try {
-      // Capture the chart as an image
-      const canvas = await html2canvas(chartRef.current, {
-        backgroundColor: '#000000',
-        scale: 2,
-      });
-      
-      // Convert canvas to base64 URL
-      const imageUrl = canvas.toDataURL('image/png');
-      
       // Prepare the share text
-      const shareText = `🎯 Just discovered my brand voice archetype: ${matchingArchetype.name}!\n\n✨ My top traits are ${topTraits.join(', ')}. This insight is going to transform how I communicate with my audience.\n\n🔍 Want to find your brand voice? Try the free VoiceSeek app from @FoundingCreative:\nvoiceseek.foundingcreative.com\n\n#BrandVoice #VoiceSeek #Branding`;
+      const text = `🎯 Just discovered my brand voice archetype: ${matchingArchetype.name}!\n\n✨ My top traits are ${topTraits.join(', ')}. This insight is going to transform how I communicate with my audience.\n\n🔍 Want to find your brand voice? Try the free VoiceSeek app from @FoundingCreative`;
       
-      // Construct LinkedIn share URL
-      const linkedInUrl = new URL('https://www.linkedin.com/sharing/share-offsite/');
-      linkedInUrl.searchParams.append('url', 'https://voiceseek.foundingcreative.com');
-      linkedInUrl.searchParams.append('title', 'My VoiceSeek Results');
-      linkedInUrl.searchParams.append('summary', shareText);
-      
-      // Open LinkedIn share window
+      // Open LinkedIn share dialog
+      const url = 'https://www.linkedin.com/shareArticle?' + new URLSearchParams({
+        mini: 'true',
+        url: 'https://voiceseek.foundingcreative.com',
+        title: 'My VoiceSeek Brand Voice Results',
+        source: 'VoiceSeek by Founding Creative',
+        summary: text
+      }).toString();
+
+      // Open in a new window with specific dimensions
       const width = 550;
       const height = 400;
       const left = (window.innerWidth - width) / 2;
       const top = (window.innerHeight - height) / 2;
       
       window.open(
-        linkedInUrl.toString(),
+        url,
         'Share on LinkedIn',
         `width=${width},height=${height},left=${left},top=${top},toolbar=0,location=0,menubar=0`
       );
