@@ -102,26 +102,20 @@ export function ResultsScreen({ scores, userData, onRetake }: ResultsScreenProps
     setShareStatus('preparing');
     
     try {
-      // Prepare the share text
-      const text = `🎯 Just discovered my brand voice archetype: ${matchingArchetype.name}!\n\n✨ My top traits are ${topTraits.join(', ')}. This insight is going to transform how I communicate with my audience.\n\n🔍 Want to find your brand voice? Try the free VoiceSeek app from @FoundingCreative`;
+      // Create the share text with line breaks encoded as %0A
+      const text = encodeURIComponent(`🎯 Just discovered my brand voice archetype: ${matchingArchetype.name}!\n\n✨ My top traits are ${topTraits.join(', ')}. This insight is going to transform how I communicate with my audience.\n\n🔍 Want to find your brand voice? Try the free VoiceSeek app from @FoundingCreative`);
       
-      // Open LinkedIn share dialog
-      const url = 'https://www.linkedin.com/shareArticle?' + new URLSearchParams({
-        mini: 'true',
-        url: 'https://voiceseek.foundingcreative.com',
-        title: 'My VoiceSeek Brand Voice Results',
-        source: 'VoiceSeek by Founding Creative',
-        summary: text
-      }).toString();
+      // Create the share URL with encoded parameters
+      const shareUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent('https://voiceseek.foundingcreative.com')}&title=${encodeURIComponent('My VoiceSeek Brand Voice Results')}&text=${text}`;
 
       // Open in a new window with specific dimensions
       const width = 550;
       const height = 400;
-      const left = (window.innerWidth - width) / 2;
-      const top = (window.innerHeight - height) / 2;
+      const left = Math.round((window.innerWidth - width) / 2);
+      const top = Math.round((window.innerHeight - height) / 2);
       
       window.open(
-        url,
+        shareUrl,
         'Share on LinkedIn',
         `width=${width},height=${height},left=${left},top=${top},toolbar=0,location=0,menubar=0`
       );
