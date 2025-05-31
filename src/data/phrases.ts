@@ -23,7 +23,7 @@ export const phrases: Phrase[] = [
     id: 4,
     contextLabel: "Support Message – Empathetic Help",
     optionA: "We're right here. We know it matters to you, so it matters to us.",
-    traits: { Warmth: 1 }
+    traits: { Warmth: 1, Empathy: 1 }
   },
   {
     id: 5,
