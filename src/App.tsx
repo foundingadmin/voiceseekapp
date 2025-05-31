@@ -4,7 +4,7 @@ import { Quiz } from './components/Quiz';
 import { ResultsScreen } from './components/ResultsScreen';
 import { AppState, UserData } from './types';
 
-function App() {
+export default function App() {
   const [appState, setAppState] = useState<AppState>('intro');
   const [scores, setScores] = useState<Record<string, number> | null>(null);
   const [userData, setUserData] = useState<UserData | null>(null);
