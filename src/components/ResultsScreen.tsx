@@ -81,6 +81,22 @@ export function ResultsScreen({ scores, userData, onRetake }: ResultsScreenProps
   const matchingArchetype = determineArchetype(scores);
 
   useEffect(() => {
+    // Update Open Graph meta tags
+    const titleTag = document.querySelector('meta[property="og:title"]');
+    const descriptionTag = document.querySelector('meta[property="og:description"]');
+    
+    if (titleTag) {
+      titleTag.setAttribute('content', `My VoiceSeek Result: ${matchingArchetype.name}`);
+    }
+    
+    if (descriptionTag) {
+      descriptionTag.setAttribute('content', 
+        `I discovered my brand voice archetype: ${matchingArchetype.name}. My top traits are ${topTraits.join(', ')}. Find yours in 3 minutes!`
+      );
+    }
+  }, [matchingArchetype, topTraits]);
+
+  useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (modalRef.current && !modalRef.current.contains(event.target as Node)) {
         setSelectedArchetype(null);
