@@ -19,6 +19,11 @@ export default function App() {
     setAppState('results');
   };
 
+  const handleRetake = () => {
+    setScores(null);
+    setAppState('quiz');
+  };
+
   return (
     <div className="min-h-screen bg-black text-gray-100 relative">
       <div className="fixed inset-0 z-0">
@@ -37,7 +42,7 @@ export default function App() {
         {appState === 'intro' && <IntroScreen onStart={handleStart} />}
         {appState === 'quiz' && <Quiz onComplete={handleQuizComplete} />}
         {appState === 'results' && scores && userData && (
-          <ResultsScreen scores={scores} userData={userData} />
+          <ResultsScreen scores={scores} userData={userData} onRetake={handleRetake} />
         )}
       </div>
     </div>

@@ -14,6 +14,7 @@ ChartJS.register(RadialLinearScale, PointElement, LineElement, Filler, Tooltip, 
 interface ResultsScreenProps {
   scores: Record<string, number>;
   userData: UserData;
+  onRetake: () => void;
 }
 
 function determineArchetype(scores: Record<string, number>): VoiceArchetype {
@@ -59,7 +60,7 @@ function determineArchetype(scores: Record<string, number>): VoiceArchetype {
   ).archetype;
 }
 
-export function ResultsScreen({ scores, userData }: ResultsScreenProps) {
+export function ResultsScreen({ scores, userData, onRetake }: ResultsScreenProps) {
   const [selectedArchetype, setSelectedArchetype] = useState<VoiceArchetype | null>(null);
   const [formStatus, setFormStatus] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle');
   const chartRef = useRef<HTMLDivElement>(null);
@@ -214,13 +215,13 @@ export function ResultsScreen({ scores, userData }: ResultsScreenProps) {
     >
       <div className="max-w-3xl mx-auto">
         <div className="flex justify-center mb-6">
-          <a
-            href="/"
+          <button
+            onClick={onRetake}
             className="flex items-center gap-2 text-green-400 hover:text-green-300 transition-colors bg-gray-900/50 px-4 py-2 rounded-full"
           >
             <RefreshCw className="w-4 h-4" />
             <span>Retake Quiz</span>
-          </a>
+          </button>
         </div>
 
         <div className="bg-gray-900 rounded-2xl shadow-xl p-8 mb-8 relative border border-gray-800">
