@@ -63,15 +63,15 @@ export function IntroScreen({ onStart }: IntroScreenProps) {
       className="min-h-screen flex flex-col items-center justify-center p-6 bg-black relative overflow-hidden"
     >
       <div className="absolute inset-0 z-0">
-        <video
-          autoPlay
-          loop
-          muted
-          playsInline
-          className="w-full h-full object-cover opacity-20"
-        >
-          <source src="/background.mp4" type="video/mp4" />
-        </video>
+        <div 
+          className="w-full h-full"
+          style={{
+            backgroundImage: 'url(/background-02.gif)',
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+            opacity: 0.2
+          }}
+        />
         <div className="absolute inset-0 bg-black bg-opacity-50" />
       </div>
 
