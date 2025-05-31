@@ -32,7 +32,7 @@ export function QuizCard({ phrase, onSwipe }: QuizCardProps) {
     }
   };
 
-  const handleKeyboardAnimation = async (direction: 'left' | 'right') => {
+  const handleButtonClick = async (direction: 'left' | 'right') => {
     await controls.start({
       x: direction === 'right' ? 200 : -200,
       opacity: 0,
@@ -58,14 +58,20 @@ export function QuizCard({ phrase, onSwipe }: QuizCardProps) {
         <div className="text-2xl font-medium text-gray-100 mb-auto">{phrase.optionA}</div>
         
         <div className="grid grid-cols-2 gap-4 mt-8">
-          <div className="flex items-center justify-center gap-2 text-gray-400 p-4 bg-gray-800/50 rounded-xl">
+          <button
+            onClick={() => handleButtonClick('left')}
+            className="flex items-center justify-center gap-2 text-gray-400 p-4 bg-gray-800/50 rounded-xl hover:bg-gray-800 transition-colors"
+          >
             <ArrowLeft className="w-5 h-5" />
             <span>Not my vibe</span>
-          </div>
-          <div className="flex items-center justify-center gap-2 text-gray-400 p-4 bg-gray-800/50 rounded-xl">
+          </button>
+          <button
+            onClick={() => handleButtonClick('right')}
+            className="flex items-center justify-center gap-2 text-gray-400 p-4 bg-gray-800/50 rounded-xl hover:bg-gray-800 transition-colors"
+          >
             <span>I like this</span>
             <ArrowRight className="w-5 h-5" />
-          </div>
+          </button>
         </div>
       </div>
     </motion.div>

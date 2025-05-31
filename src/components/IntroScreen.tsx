@@ -60,21 +60,8 @@ export function IntroScreen({ onStart }: IntroScreenProps) {
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      className="min-h-screen flex flex-col items-center justify-center p-6 bg-black relative overflow-hidden"
+      className="min-h-screen flex flex-col items-center justify-center p-6 relative overflow-hidden"
     >
-      <div className="absolute inset-0 z-0">
-        <div 
-          className="w-full h-full"
-          style={{
-            backgroundImage: 'url(/background-02.gif)',
-            backgroundSize: 'cover',
-            backgroundPosition: 'center',
-            opacity: 0.2
-          }}
-        />
-        <div className="absolute inset-0 bg-black bg-opacity-50" />
-      </div>
-
       <motion.div
         className="text-center max-w-lg relative z-10"
         initial={{ scale: 0.9 }}
