@@ -3,7 +3,7 @@ import { Chart as ChartJS, RadialLinearScale, PointElement, LineElement, Filler,
 import { Radar } from 'react-chartjs-2';
 import { archetypes } from '../data/archetypes';
 import { TraitName, VoiceArchetype, UserData } from '../types';
-import { Download, ArrowRight, X, RefreshCw, Share2 } from 'lucide-react';
+import { Download, ArrowRight, X, RefreshCw, Share2, Linkedin } from 'lucide-react';
 import { useState, useRef, useEffect } from 'react';
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
@@ -64,7 +64,7 @@ function determineArchetype(scores: Record<string, number>): VoiceArchetype {
 export function ResultsScreen({ scores, userData, onRetake }: ResultsScreenProps) {
   const [selectedArchetype, setSelectedArchetype] = useState<VoiceArchetype | null>(null);
   const [formStatus, setFormStatus] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle');
-  const [shareStatus, setShareStatus] = useState<'idle' | 'success' | 'error'>('idle');
+  const [shareStatus, setShareStatus] = useState<'idle' | 'preparing' | 'success' | 'error'>('idle');
   const chartRef = useRef<HTMLDivElement>(null);
   const formRef = useRef<HTMLFormElement>(null);
   const modalRef = useRef<HTMLDivElement>(null);
@@ -96,42 +96,48 @@ export function ResultsScreen({ scores, userData, onRetake }: ResultsScreenProps
     };
   }, [selectedArchetype]);
 
-  const handleShare = async () => {
+  const handleLinkedInShare = async () => {
     if (!chartRef.current) return;
-
+    
+    setShareStatus('preparing');
+    
     try {
+      // Capture the chart as an image
       const canvas = await html2canvas(chartRef.current, {
         backgroundColor: '#000000',
         scale: 2,
       });
-
-      const imageBlob = await new Promise<Blob>((resolve) => {
-        canvas.toBlob((blob) => {
-          if (blob) resolve(blob);
-        }, 'image/png');
-      });
-
-      const shareData = {
-        title: 'My VoiceSeek Results',
-        text: `🎯 Just discovered my brand voice archetype: ${matchingArchetype.name}!\n\n✨ My top traits are ${topTraits.join(', ')}. This insight is going to transform how I communicate with my audience.\n\n🔍 Want to find your brand voice? Try the free VoiceSeek app from @FoundingCreative:\nvoiceseek.foundingcreative.com\n\n#BrandVoice #VoiceSeek #Branding`,
-        files: [
-          new File([imageBlob], 'voiceseek-results.png', { type: 'image/png' })
-        ]
-      };
-
-      if (navigator.canShare && navigator.canShare(shareData)) {
-        await navigator.share(shareData);
-        setShareStatus('success');
-      } else {
-        // Fallback: Copy to clipboard
-        await navigator.clipboard.writeText(shareData.text);
-        setShareStatus('success');
-      }
+      
+      // Convert canvas to base64 URL
+      const imageUrl = canvas.toDataURL('image/png');
+      
+      // Prepare the share text
+      const shareText = `🎯 Just discovered my brand voice archetype: ${matchingArchetype.name}!\n\n✨ My top traits are ${topTraits.join(', ')}. This insight is going to transform how I communicate with my audience.\n\n🔍 Want to find your brand voice? Try the free VoiceSeek app from @FoundingCreative:\nvoiceseek.foundingcreative.com\n\n#BrandVoice #VoiceSeek #Branding`;
+      
+      // Construct LinkedIn share URL
+      const linkedInUrl = new URL('https://www.linkedin.com/sharing/share-offsite/');
+      linkedInUrl.searchParams.append('url', 'https://voiceseek.foundingcreative.com');
+      linkedInUrl.searchParams.append('title', 'My VoiceSeek Results');
+      linkedInUrl.searchParams.append('summary', shareText);
+      
+      // Open LinkedIn share window
+      const width = 550;
+      const height = 400;
+      const left = (window.innerWidth - width) / 2;
+      const top = (window.innerHeight - height) / 2;
+      
+      window.open(
+        linkedInUrl.toString(),
+        'Share on LinkedIn',
+        `width=${width},height=${height},left=${left},top=${top},toolbar=0,location=0,menubar=0`
+      );
+      
+      setShareStatus('success');
     } catch (error) {
-      console.error('Error sharing:', error);
+      console.error('Error sharing to LinkedIn:', error);
       setShareStatus('error');
     }
-
+    
     // Reset status after 3 seconds
     setTimeout(() => setShareStatus('idle'), 3000);
   };
@@ -265,14 +271,19 @@ export function ResultsScreen({ scores, userData, onRetake }: ResultsScreenProps
             <span>Retake Quiz</span>
           </button>
           <button
-            onClick={handleShare}
+            onClick={handleLinkedInShare}
             className="flex items-center gap-2 text-green-400 hover:text-green-300 transition-colors bg-gray-900/50 px-4 py-2 rounded-full relative"
           >
-            <Share2 className="w-4 h-4" />
-            <span>Share Results</span>
+            <Linkedin className="w-4 h-4" />
+            <span>Share on LinkedIn</span>
+            {shareStatus === 'preparing' && (
+              <span className="absolute -top-8 left-1/2 -translate-x-1/2 text-sm text-green-400 whitespace-nowrap">
+                Preparing share...
+              </span>
+            )}
             {shareStatus === 'success' && (
               <span className="absolute -top-8 left-1/2 -translate-x-1/2 text-sm text-green-400 whitespace-nowrap">
-                {navigator.canShare ? 'Sharing...' : 'Copied to clipboard!'}
+                Opening LinkedIn...
               </span>
             )}
             {shareStatus === 'error' && (
