@@ -3,7 +3,7 @@ import { Chart as ChartJS, RadialLinearScale, PointElement, LineElement, Filler,
 import { Radar } from 'react-chartjs-2';
 import { archetypes } from '../data/archetypes';
 import { TraitName, VoiceArchetype, UserData } from '../types';
-import { Download, ArrowRight, X, RefreshCw, Share2, Linkedin } from 'lucide-react';
+import { Download, ArrowRight, X, RefreshCw, Linkedin } from 'lucide-react';
 import { useState, useRef, useEffect } from 'react';
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
@@ -96,54 +96,18 @@ export function ResultsScreen({ scores, userData, onRetake }: ResultsScreenProps
     }
   }, [matchingArchetype, topTraits]);
 
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (modalRef.current && !modalRef.current.contains(event.target as Node)) {
-        setSelectedArchetype(null);
-      }
-    };
-
-    if (selectedArchetype) {
-      document.addEventListener('mousedown', handleClickOutside);
-    }
-
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
-  }, [selectedArchetype]);
-
-  const handleLinkedInShare = async () => {
-    if (!chartRef.current) return;
+  const handleLinkedInShare = () => {
+    const shareUrl = encodeURIComponent(window.location.href);
+    const width = 550;
+    const height = 400;
+    const left = Math.round((window.innerWidth - width) / 2);
+    const top = Math.round((window.innerHeight - height) / 2);
     
-    setShareStatus('preparing');
-    
-    try {
-      // Create the share text with line breaks encoded as %0A
-      const text = encodeURIComponent(`🎯 Just discovered my brand voice archetype: ${matchingArchetype.name}!\n\n✨ My top traits are ${topTraits.join(', ')}. This insight is going to transform how I communicate with my audience.\n\n🔍 Want to find your brand voice? Try the free VoiceSeek app from @FoundingCreative`);
-      
-      // Create the share URL with encoded parameters
-      const shareUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent('https://voiceseek.foundingcreative.com')}&title=${encodeURIComponent('My VoiceSeek Brand Voice Results')}&text=${text}`;
-
-      // Open in a new window with specific dimensions
-      const width = 550;
-      const height = 400;
-      const left = Math.round((window.innerWidth - width) / 2);
-      const top = Math.round((window.innerHeight - height) / 2);
-      
-      window.open(
-        shareUrl,
-        'Share on LinkedIn',
-        `width=${width},height=${height},left=${left},top=${top},toolbar=0,location=0,menubar=0`
-      );
-      
-      setShareStatus('success');
-    } catch (error) {
-      console.error('Error sharing to LinkedIn:', error);
-      setShareStatus('error');
-    }
-    
-    // Reset status after 3 seconds
-    setTimeout(() => setShareStatus('idle'), 3000);
+    window.open(
+      `https://www.linkedin.com/sharing/share-offsite/?url=${shareUrl}`,
+      'Share on LinkedIn',
+      `width=${width},height=${height},left=${left},top=${top},toolbar=0,location=0,menubar=0`
+    );
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -276,25 +240,10 @@ export function ResultsScreen({ scores, userData, onRetake }: ResultsScreenProps
           </button>
           <button
             onClick={handleLinkedInShare}
-            className="flex items-center gap-2 text-green-400 hover:text-green-300 transition-colors bg-gray-900/50 px-4 py-2 rounded-full relative"
+            className="flex items-center gap-2 text-green-400 hover:text-green-300 transition-colors bg-gray-900/50 px-4 py-2 rounded-full"
           >
             <Linkedin className="w-4 h-4" />
             <span>Share on LinkedIn</span>
-            {shareStatus === 'preparing' && (
-              <span className="absolute -top-8 left-1/2 -translate-x-1/2 text-sm text-green-400 whitespace-nowrap">
-                Preparing share...
-              </span>
-            )}
-            {shareStatus === 'success' && (
-              <span className="absolute -top-8 left-1/2 -translate-x-1/2 text-sm text-green-400 whitespace-nowrap">
-                Opening LinkedIn...
-              </span>
-            )}
-            {shareStatus === 'error' && (
-              <span className="absolute -top-8 left-1/2 -translate-x-1/2 text-sm text-red-400 whitespace-nowrap">
-                Failed to share
-              </span>
-            )}
           </button>
         </div>
 
