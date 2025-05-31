@@ -1,0 +1,26 @@
+Choice #,Context Label,Option A,Option B,User Choice,Clarity,Warmth,Playfulness,Boldness,Sophistication,Formality,Inspiration,Empathy
+1,Website Headline — Invite Visitors to Explore,"Let’s break it down, step by step.",Let’s distill the complexity into elegance.,A,1,0,0,0,0,0,0,0
+2,Landing Page — Describe Your Services,We’ve got jokes and results.,Trusted by brands that expect the best.,B,0,0,0,0,1,0,0,0
+3,About Page — Introduce Your Team,We’re real people helping real people.,A strategic team of seasoned professionals.,A,0,1,0,0,0,0,0,0
+4,Hero Tagline — Motivate Users to Act,Dare to do more with your brand.,Drive measurable outcomes with strategic alignment.,A,0,0,0,0,0,0,1,0
+5,Homepage Intro — First Impression,You bring the dreams—we’ll bring the snacks.,Partner with a team that delivers professional results.,A,0,0,1,0,0,0,0,0
+6,Email Campaign — Product Launch,Oops. We broke the mold again.,We don’t follow trends—we end them.,B,0,0,0,1,0,0,0,0
+7,Social Post — Encouraging Action,Why wait? Take the leap now.,"Whenever you're ready, we’ll be right here.",A,0,0,0,1,0,0,0,0
+8,Support Message — After an Error,We hear you. And we’re already working on it.,Your inquiry has been received. Our team will respond shortly.,B,0,0,0,0,0,1,0,0
+9,Call-to-Action Button — Primary Web CTA,Let’s go.,Get started with confidence.,A,0,0,0,1,0,0,0,0
+10,Social Post — Light-Hearted Culture Moment,This isn’t rocket science. Unless you’re building rockets. Then… it kinda is.,"Whatever your challenge, we’ll help you carry it.",A,0,0,1,0,0,0,0,0
+11,Welcome Email — Set the Tone for the Brand,Hey—glad you’re here. Let’s make cool stuff.,We’re honored to collaborate on your next success.,B,0,0,0,0,1,0,0,0
+12,Product Feature — Explain Functionality,Here’s exactly what to expect.,We’ve crafted a seamless experience to elevate your workflow.,A,1,0,0,0,0,0,0,0
+13,Social Post — Vision & Values,You’re building something bigger than you know.,We help businesses grow sustainably and strategically.,B,1,0,0,0,0,1,0,0
+14,FAQ Section — Common User Concerns,Let us meet you where you are.,"Review our process, pricing, and timeline breakdowns.",A,0,0,0,0,0,0,0,1
+15,Ad Headline — Grab Attention Quickly,Disrupt everything.,Be part of something greater.,B,0,0,0,0,0,0,1,0
+16,Homepage Intro — Establish Trust,We care about what you care about.,We elevate the standard of excellence.,A,0,1,0,0,0,0,0,0
+17,Confirmation Page — After Signup,Nice. You’re in.,Thank you. Your registration is complete.,A,0,0,1,0,0,0,0,0
+18,Error Message — Something Went Wrong,Oh no. That didn’t work. Let’s fix it together.,An error has occurred. Please try again.,A,0,0,1,0,0,0,0,1
+19,Social Ad — Show Brand Personality,Launch it. Love it. Laugh a little.,Let’s create something unforgettable.,B,0,0,0,0,0,0,1,0
+20,Contact Page — Reaching Out,We’re here if you need us. Don’t be shy.,Submit your inquiry below to begin.,A,0,1,0,0,0,0,0,0
+21,Email Footer — Closing Line,Stay curious.,We appreciate your time and attention.,A,0,0,0,0,0,0,1,0
+22,Website Banner — Limited-Time Promo,Ready. Set. GO.,Take advantage of our seasonal offer.,A,0,0,0,1,0,0,0,0
+23,Microcopy — Signup Field Placeholder,"Your best email, please!",Enter your email address.,A,0,0,1,0,0,0,0,0
+24,Homepage Tagline — Brand’s Big Promise,We listen first—then we help.,"Results, delivered with precision.",A,0,0,0,0,0,0,0,1
+TOTAL,,,,,3,3,5,4,2,2,4,3

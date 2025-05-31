@@ -1,0 +1,73 @@
+import { motion, PanInfo, useAnimation } from 'framer-motion';
+import { useEffect } from 'react';
+import { Phrase } from '../types';
+import { ArrowLeft, ArrowRight } from 'lucide-react';
+
+interface QuizCardProps {
+  phrase: Phrase;
+  onSwipe: (direction: 'left' | 'right') => void;
+}
+
+export function QuizCard({ phrase, onSwipe }: QuizCardProps) {
+  const controls = useAnimation();
+
+  useEffect(() => {
+    controls.start({ x: 0, opacity: 1, scale: 1 });
+  }, [phrase]);
+
+  const handleDragEnd = async (_: never, info: PanInfo) => {
+    const threshold = 100;
+    const direction = info.offset.x > threshold ? 'right' : info.offset.x < -threshold ? 'left' : null;
+
+    if (direction) {
+      await controls.start({
+        x: direction === 'right' ? 200 : -200,
+        opacity: 0,
+        scale: 0.8,
+        transition: { duration: 0.3 }
+      });
+      onSwipe(direction);
+    } else {
+      controls.start({ x: 0, scale: 1 });
+    }
+  };
+
+  const handleKeyboardAnimation = async (direction: 'left' | 'right') => {
+    await controls.start({
+      x: direction === 'right' ? 200 : -200,
+      opacity: 0,
+      scale: 0.8,
+      transition: { duration: 0.3 }
+    });
+    onSwipe(direction);
+  };
+
+  return (
+    <motion.div
+      drag="x"
+      dragConstraints={{ left: 0, right: 0 }}
+      dragElastic={0.9}
+      onDragEnd={handleDragEnd}
+      animate={controls}
+      initial={{ x: 300, opacity: 0, scale: 0.8 }}
+      whileDrag={{ scale: 1.05 }}
+      className="w-full h-full flex items-center justify-center"
+    >
+      <div className="w-full aspect-[3/4] bg-gray-900 rounded-2xl shadow-xl p-8 border border-gray-800 flex flex-col">
+        <div className="text-sm text-gray-400 mb-6">{phrase.contextLabel}</div>
+        <div className="text-2xl font-medium text-gray-100 mb-auto">{phrase.optionA}</div>
+        
+        <div className="grid grid-cols-2 gap-4 mt-8">
+          <div className="flex items-center justify-center gap-2 text-gray-400 p-4 bg-gray-800/50 rounded-xl">
+            <ArrowLeft className="w-5 h-5" />
+            <span>Not my vibe</span>
+          </div>
+          <div className="flex items-center justify-center gap-2 text-gray-400 p-4 bg-gray-800/50 rounded-xl">
+            <span>I like this</span>
+            <ArrowRight className="w-5 h-5" />
+          </div>
+        </div>
+      </div>
+    </motion.div>
+  );
+}
