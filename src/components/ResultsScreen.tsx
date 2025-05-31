@@ -3,11 +3,12 @@ import { Chart as ChartJS, RadialLinearScale, PointElement, LineElement, Filler,
 import { Radar } from 'react-chartjs-2';
 import { archetypes } from '../data/archetypes';
 import { TraitName, VoiceArchetype, UserData } from '../types';
-import { Download, ArrowRight, X, RefreshCw } from 'lucide-react';
+import { Download, ArrowRight, X, RefreshCw, Share2 } from 'lucide-react';
 import { useState, useRef, useEffect } from 'react';
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
 import emailjs from '@emailjs/browser';
+import html2canvas from 'html2canvas';
 
 ChartJS.register(RadialLinearScale, PointElement, LineElement, Filler, Tooltip, Legend);
 
@@ -63,6 +64,7 @@ function determineArchetype(scores: Record<string, number>): VoiceArchetype {
 export function ResultsScreen({ scores, userData, onRetake }: ResultsScreenProps) {
   const [selectedArchetype, setSelectedArchetype] = useState<VoiceArchetype | null>(null);
   const [formStatus, setFormStatus] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle');
+  const [shareStatus, setShareStatus] = useState<'idle' | 'success' | 'error'>('idle');
   const chartRef = useRef<HTMLDivElement>(null);
   const formRef = useRef<HTMLFormElement>(null);
   const modalRef = useRef<HTMLDivElement>(null);
@@ -93,6 +95,46 @@ export function ResultsScreen({ scores, userData, onRetake }: ResultsScreenProps
       document.removeEventListener('mousedown', handleClickOutside);
     };
   }, [selectedArchetype]);
+
+  const handleShare = async () => {
+    if (!chartRef.current) return;
+
+    try {
+      const canvas = await html2canvas(chartRef.current, {
+        backgroundColor: '#000000',
+        scale: 2,
+      });
+
+      const imageBlob = await new Promise<Blob>((resolve) => {
+        canvas.toBlob((blob) => {
+          if (blob) resolve(blob);
+        }, 'image/png');
+      });
+
+      const shareData = {
+        title: 'My VoiceSeek Results',
+        text: `🎯 Just discovered my brand voice archetype: ${matchingArchetype.name}!\n\n✨ My top traits are ${topTraits.join(', ')}. This insight is going to transform how I communicate with my audience.\n\n🔍 Want to find your brand voice? Try the free VoiceSeek app from @FoundingCreative:\nvoiceseek.foundingcreative.com\n\n#BrandVoice #VoiceSeek #Branding`,
+        files: [
+          new File([imageBlob], 'voiceseek-results.png', { type: 'image/png' })
+        ]
+      };
+
+      if (navigator.canShare && navigator.canShare(shareData)) {
+        await navigator.share(shareData);
+        setShareStatus('success');
+      } else {
+        // Fallback: Copy to clipboard
+        await navigator.clipboard.writeText(shareData.text);
+        setShareStatus('success');
+      }
+    } catch (error) {
+      console.error('Error sharing:', error);
+      setShareStatus('error');
+    }
+
+    // Reset status after 3 seconds
+    setTimeout(() => setShareStatus('idle'), 3000);
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -214,13 +256,30 @@ export function ResultsScreen({ scores, userData, onRetake }: ResultsScreenProps
       className="min-h-screen bg-black py-12 px-4"
     >
       <div className="max-w-3xl mx-auto">
-        <div className="flex justify-center mb-6">
+        <div className="flex justify-center gap-4 mb-6">
           <button
             onClick={onRetake}
             className="flex items-center gap-2 text-green-400 hover:text-green-300 transition-colors bg-gray-900/50 px-4 py-2 rounded-full"
           >
             <RefreshCw className="w-4 h-4" />
             <span>Retake Quiz</span>
+          </button>
+          <button
+            onClick={handleShare}
+            className="flex items-center gap-2 text-green-400 hover:text-green-300 transition-colors bg-gray-900/50 px-4 py-2 rounded-full relative"
+          >
+            <Share2 className="w-4 h-4" />
+            <span>Share Results</span>
+            {shareStatus === 'success' && (
+              <span className="absolute -top-8 left-1/2 -translate-x-1/2 text-sm text-green-400 whitespace-nowrap">
+                {navigator.canShare ? 'Sharing...' : 'Copied to clipboard!'}
+              </span>
+            )}
+            {shareStatus === 'error' && (
+              <span className="absolute -top-8 left-1/2 -translate-x-1/2 text-sm text-red-400 whitespace-nowrap">
+                Failed to share
+              </span>
+            )}
           </button>
         </div>
 
