@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 interface IntroScreenProps {
   onStart: (email: string) => void;
@@ -9,6 +9,19 @@ export function IntroScreen({ onStart }: IntroScreenProps) {
   const [email, setEmail] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      // Check for Ctrl + Option + Cmd + Enter
+      if (e.ctrlKey && e.altKey && e.metaKey && e.key === 'Enter') {
+        e.preventDefault();
+        onStart('skip@voiceseek.dev');
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [onStart]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
