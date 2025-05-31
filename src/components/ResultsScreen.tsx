@@ -3,12 +3,11 @@ import { Chart as ChartJS, RadialLinearScale, PointElement, LineElement, Filler,
 import { Radar } from 'react-chartjs-2';
 import { archetypes } from '../data/archetypes';
 import { TraitName, VoiceArchetype, UserData } from '../types';
-import { Download, ArrowRight, X, RefreshCw, Linkedin } from 'lucide-react';
-import { useState, useRef, useEffect } from 'react';
+import { Download, ArrowRight, X, RefreshCw } from 'lucide-react';
+import { useState, useRef } from 'react';
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
 import emailjs from '@emailjs/browser';
-import html2canvas from 'html2canvas';
 
 ChartJS.register(RadialLinearScale, PointElement, LineElement, Filler, Tooltip, Legend);
 
@@ -64,9 +63,6 @@ function determineArchetype(scores: Record<string, number>): VoiceArchetype {
 export function ResultsScreen({ scores, userData, onRetake }: ResultsScreenProps) {
   const [selectedArchetype, setSelectedArchetype] = useState<VoiceArchetype | null>(null);
   const [formStatus, setFormStatus] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle');
-  const [previewImage, setPreviewImage] = useState<string | null>(null);
-  const [isUploading, setIsUploading] = useState(false);
-  const [uploadError, setUploadError] = useState<string | null>(null);
   const chartRef = useRef<HTMLDivElement>(null);
   const formRef = useRef<HTMLFormElement>(null);
   const modalRef = useRef<HTMLDivElement>(null);
@@ -81,89 +77,6 @@ export function ResultsScreen({ scores, userData, onRetake }: ResultsScreenProps
     .map(({ trait }) => trait);
 
   const matchingArchetype = determineArchetype(scores);
-
-  useEffect(() => {
-    const generateAndUploadPreview = async () => {
-      if (!chartRef.current || isUploading) return;
-
-      try {
-        setIsUploading(true);
-        setUploadError(null);
-
-        // Capture the chart with padding and styling
-        const chartElement = chartRef.current;
-        const canvas = await html2canvas(chartElement, {
-          backgroundColor: '#000000',
-          scale: 2,
-          logging: false,
-          windowWidth: chartElement.scrollWidth * 2,
-          windowHeight: chartElement.scrollHeight * 2
-        });
-
-        const dataUrl = canvas.toDataURL('image/png');
-        
-        // Upload to ImgBB through Netlify Function
-        const response = await fetch('/.netlify/functions/upload-image', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ image: dataUrl }),
-        });
-
-        if (!response.ok) {
-          throw new Error('Failed to upload image');
-        }
-
-        const { url } = await response.json();
-        setPreviewImage(url);
-
-        // Update Open Graph meta tags
-        const metaTags = {
-          'og:image': url,
-          'og:title': `My VoiceSeek Result: ${matchingArchetype.name}`,
-          'og:description': `I discovered my brand voice archetype: ${matchingArchetype.name}. My top traits are ${topTraits.join(', ')}. Find yours in 3 minutes!`
-        };
-
-        Object.entries(metaTags).forEach(([property, content]) => {
-          let tag = document.querySelector(`meta[property="${property}"]`);
-          if (!tag) {
-            tag = document.createElement('meta');
-            tag.setAttribute('property', property);
-            document.head.appendChild(tag);
-          }
-          tag.setAttribute('content', content);
-        });
-
-      } catch (error) {
-        console.error('Error generating/uploading preview:', error);
-        setUploadError('Failed to prepare share preview. Please try again.');
-      } finally {
-        setIsUploading(false);
-      }
-    };
-
-    generateAndUploadPreview();
-  }, [matchingArchetype, topTraits]);
-
-  const handleLinkedInShare = () => {
-    if (uploadError) {
-      alert('Unable to share: ' + uploadError);
-      return;
-    }
-    
-    const shareUrl = encodeURIComponent(window.location.href);
-    const width = 550;
-    const height = 400;
-    const left = Math.round((window.innerWidth - width) / 2);
-    const top = Math.round((window.innerHeight - height) / 2);
-    
-    window.open(
-      `https://www.linkedin.com/sharing/share-offsite/?url=${shareUrl}`,
-      'Share on LinkedIn',
-      `width=${width},height=${height},left=${left},top=${top},toolbar=0,location=0,menubar=0`
-    );
-  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -285,7 +198,7 @@ export function ResultsScreen({ scores, userData, onRetake }: ResultsScreenProps
       className="min-h-screen bg-black py-12 px-4"
     >
       <div className="max-w-3xl mx-auto">
-        <div className="flex justify-center gap-4 mb-6">
+        <div className="flex justify-center mb-6">
           <button
             onClick={onRetake}
             className="flex items-center gap-2 text-green-400 hover:text-green-300 transition-colors bg-gray-900/50 px-4 py-2 rounded-full"
@@ -293,21 +206,7 @@ export function ResultsScreen({ scores, userData, onRetake }: ResultsScreenProps
             <RefreshCw className="w-4 h-4" />
             <span>Retake Quiz</span>
           </button>
-          <button
-            onClick={handleLinkedInShare}
-            className="flex items-center gap-2 text-green-400 hover:text-green-300 transition-colors bg-gray-900/50 px-4 py-2 rounded-full disabled:opacity-50 disabled:cursor-not-allowed"
-            disabled={isUploading}
-          >
-            <Linkedin className="w-4 h-4" />
-            <span>{isUploading ? 'Preparing Share...' : 'Share on LinkedIn'}</span>
-          </button>
         </div>
-
-        {uploadError && (
-          <div className="text-red-400 text-center mb-4">
-            {uploadError}
-          </div>
-        )}
 
         <div className="bg-gray-900 rounded-2xl shadow-xl p-8 mb-8 relative border border-gray-800">
           <h1 className="text-3xl font-bold text-gray-100 mb-2">Your Voice Archetype:</h1>
