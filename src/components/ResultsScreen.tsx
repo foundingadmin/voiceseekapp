@@ -3,7 +3,7 @@ import { Chart as ChartJS, RadialLinearScale, PointElement, LineElement, Filler,
 import { Radar } from 'react-chartjs-2';
 import { archetypes } from '../data/archetypes';
 import { TraitName, VoiceArchetype, UserData } from '../types';
-import { Download, ArrowRight, X, RefreshCw } from 'lucide-react';
+import { Download, ArrowRight, X, RefreshCw, Share2 } from 'lucide-react';
 import { useState, useRef } from 'react';
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
@@ -77,6 +77,17 @@ export function ResultsScreen({ scores, userData, onRetake }: ResultsScreenProps
     .map(({ trait }) => trait);
 
   const matchingArchetype = determineArchetype(scores);
+
+  const handleShare = () => {
+    const shareText = `I discovered my brand voice archetype: ${matchingArchetype.name}! Find yours at VoiceSeek`;
+    const shareUrl = window.location.href;
+    
+    window.open(
+      `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(shareUrl)}&title=${encodeURIComponent(shareText)}`,
+      '_blank',
+      'width=600,height=600'
+    );
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -198,13 +209,20 @@ export function ResultsScreen({ scores, userData, onRetake }: ResultsScreenProps
       className="min-h-screen bg-black py-12 px-4"
     >
       <div className="max-w-3xl mx-auto">
-        <div className="flex justify-center mb-6">
+        <div className="flex justify-between items-center mb-6">
           <button
             onClick={onRetake}
             className="flex items-center gap-2 text-green-400 hover:text-green-300 transition-colors bg-gray-900/50 px-4 py-2 rounded-full"
           >
             <RefreshCw className="w-4 h-4" />
             <span>Retake Quiz</span>
+          </button>
+          <button
+            onClick={handleShare}
+            className="flex items-center gap-2 text-blue-400 hover:text-blue-300 transition-colors bg-gray-900/50 px-4 py-2 rounded-full"
+          >
+            <Share2 className="w-4 h-4" />
+            <span>Share on LinkedIn</span>
           </button>
         </div>
 
