@@ -72,7 +72,7 @@ export function Quiz({ onComplete }: QuizProps) {
   return (
     <div className="min-h-screen flex flex-col items-center justify-center">
       <div className="absolute top-8 left-0 right-0 flex justify-center">
-        <div className="w-48 h-1 rounded-full bg-secondary/50 overflow-hidden">
+        <div className="w-48 h-1 rounded-full bg-secondary/80 backdrop-blur-sm overflow-hidden">
           <div 
             className="h-full bg-primary rounded-full transition-all duration-300 ease-out"
             style={{ width: `${progress}%` }}
