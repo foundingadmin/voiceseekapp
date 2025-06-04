@@ -68,11 +68,7 @@ export function IntroScreen({ onStart }: IntroScreenProps) {
   };
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      className="h-screen overflow-hidden flex flex-col items-center justify-center p-6"
-    >
+    <div className="h-screen overflow-hidden flex flex-col items-center justify-center p-6">
       <motion.div
         className="text-center max-w-lg"
         initial={{ scale: 0.9 }}
@@ -118,6 +114,6 @@ export function IntroScreen({ onStart }: IntroScreenProps) {
           </motion.button>
         </form>
       </motion.div>
-    </motion.div>
+    </div>
   );
 }

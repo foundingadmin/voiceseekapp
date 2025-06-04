@@ -70,7 +70,7 @@ export function Quiz({ onComplete }: QuizProps) {
   const progress = ((currentIndex + 1) / phrases.length) * 100;
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center">
+    <div className="h-screen overflow-hidden flex flex-col items-center justify-center">
       <div className="absolute top-8 left-0 right-0 flex flex-col items-center gap-2">
         <div className="text-sm text-muted-foreground">
           Question {currentIndex + 1} of {phrases.length}
@@ -91,8 +91,10 @@ export function Quiz({ onComplete }: QuizProps) {
         />
       </div>
 
-      <div className="absolute bottom-8 left-0 right-0 flex justify-center text-sm text-muted-foreground px-4">
-        <div>Swipe left or right</div>
+      <div className="absolute bottom-8 left-0 right-0 flex justify-center">
+        <div className="text-sm text-muted-foreground bg-secondary/50 backdrop-blur-sm px-4 py-2 rounded-full">
+          Swipe cards left or right to answer
+        </div>
       </div>
     </div>
   );
