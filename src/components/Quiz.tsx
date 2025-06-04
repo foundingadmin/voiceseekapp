@@ -67,11 +67,16 @@ export function Quiz({ onComplete }: QuizProps) {
     };
   }, [currentIndex]);
 
+  const progress = ((currentIndex + 1) / phrases.length) * 100;
+
   return (
     <div className="min-h-screen flex flex-col items-center justify-center">
       <div className="absolute top-8 left-0 right-0 flex justify-center">
-        <div className="text-muted-foreground text-lg">
-          {currentIndex + 1} / {phrases.length}
+        <div className="w-48 h-1 rounded-full bg-secondary/50 overflow-hidden">
+          <div 
+            className="h-full bg-primary rounded-full transition-all duration-300 ease-out"
+            style={{ width: `${progress}%` }}
+          />
         </div>
       </div>
 
