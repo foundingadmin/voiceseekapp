@@ -112,20 +112,17 @@ export function ResultsScreen({ scores, userData, onRetake }: ResultsScreenProps
   const handleDownload = () => {
     const pdf = new jsPDF();
     
-    // Add title and branding
     pdf.setFontSize(24);
     pdf.text('VoiceSeek Results', 20, 30);
     
     pdf.setFontSize(20);
     pdf.text(`Your Brand Voice Archetype: ${matchingArchetype.name}`, 20, 50);
     
-    // Description
     pdf.setFontSize(12);
     const description = `Your brand voice leans towards ${topTraits.join(', ')}. ${matchingArchetype.vibe}`;
     const splitDescription = pdf.splitTextToSize(description, pdf.internal.pageSize.width - 40);
     pdf.text(splitDescription, 20, 70);
 
-    // Top Traits Table
     pdf.autoTable({
       head: [['Top Traits', 'Score']],
       body: topTraits.map(trait => [trait, scores[trait]]),
@@ -133,7 +130,6 @@ export function ResultsScreen({ scores, userData, onRetake }: ResultsScreenProps
       theme: 'grid'
     });
 
-    // Writing Examples
     pdf.setFontSize(16);
     pdf.text('Writing Examples:', 20, pdf.autoTable.previous.finalY + 20);
 
@@ -147,7 +143,6 @@ export function ResultsScreen({ scores, userData, onRetake }: ResultsScreenProps
       theme: 'grid'
     });
 
-    // Contact Information
     pdf.setFontSize(12);
     pdf.text('Ready to develop your brand strategy?', 20, pdf.autoTable.previous.finalY + 20);
     pdf.text('Visit: foundingcreative.com', 20, pdf.autoTable.previous.finalY + 30);
@@ -206,46 +201,46 @@ export function ResultsScreen({ scores, userData, onRetake }: ResultsScreenProps
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      className="min-h-screen bg-black py-12 px-4"
+      className="min-h-screen py-12 px-4"
     >
       <div className="max-w-3xl mx-auto">
         <div className="flex justify-between items-center mb-6">
           <button
             onClick={onRetake}
-            className="flex items-center gap-2 text-green-400 hover:text-green-300 transition-colors bg-gray-900/50 px-4 py-2 rounded-full"
+            className="flex items-center gap-2 text-primary hover:text-primary/90 transition-colors bg-secondary/50 px-4 py-2 rounded-full"
           >
             <RefreshCw className="w-4 h-4" />
             <span>Retake Quiz</span>
           </button>
           <button
             onClick={handleShare}
-            className="flex items-center gap-2 text-blue-400 hover:text-blue-300 transition-colors bg-gray-900/50 px-4 py-2 rounded-full"
+            className="flex items-center gap-2 text-blue-400 hover:text-blue-300 transition-colors bg-secondary/50 px-4 py-2 rounded-full"
           >
             <Share2 className="w-4 h-4" />
             <span>Share on LinkedIn</span>
           </button>
         </div>
 
-        <div className="bg-gray-900 rounded-2xl shadow-xl p-8 mb-8 relative border border-gray-800">
-          <h1 className="text-3xl font-bold text-gray-100 mb-2">Your Voice Archetype:</h1>
-          <h2 className="text-2xl text-green-400 font-semibold mb-6">
+        <div className="bg-card rounded-2xl shadow-xl p-8 mb-8 relative border border-border/50">
+          <h1 className="text-3xl font-bold mb-2">Your Voice Archetype:</h1>
+          <h2 className="text-2xl text-primary font-semibold mb-6">
             {matchingArchetype.name}
           </h2>
           
-          <p className="text-gray-300 mb-8">
+          <p className="text-muted-foreground mb-8">
             Your brand voice leans towards {topTraits.join(', ')}. {matchingArchetype.vibe}
           </p>
 
-          <div ref={chartRef} className="aspect-square max-w-md mx-auto mb-8 bg-black p-4 rounded-xl">
+          <div ref={chartRef} className="aspect-square max-w-md mx-auto mb-8 bg-background p-4 rounded-xl">
             <Radar data={chartData} options={chartOptions} />
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
             <div>
-              <h3 className="text-lg font-semibold text-gray-100 mb-4">✍️ Write Like This:</h3>
+              <h3 className="text-lg font-semibold mb-4">✍️ Write Like This:</h3>
               <ul className="space-y-3">
                 {matchingArchetype.doWrite.map((phrase, index) => (
-                  <li key={index} className="text-gray-300 bg-green-900/20 border border-green-700/30 p-3 rounded-lg">
+                  <li key={index} className="text-muted-foreground bg-primary/5 border border-primary/20 p-3 rounded-lg">
                     "{phrase}"
                   </li>
                 ))}
@@ -253,10 +248,10 @@ export function ResultsScreen({ scores, userData, onRetake }: ResultsScreenProps
             </div>
 
             <div>
-              <h3 className="text-lg font-semibold text-gray-100 mb-4">⛔ Avoid Writing Like This:</h3>
+              <h3 className="text-lg font-semibold mb-4">⛔ Avoid Writing Like This:</h3>
               <ul className="space-y-3">
                 {matchingArchetype.dontWrite.map((phrase, index) => (
-                  <li key={index} className="text-gray-300 bg-red-900/20 border border-red-700/30 p-3 rounded-lg">
+                  <li key={index} className="text-muted-foreground bg-destructive/5 border border-destructive/20 p-3 rounded-lg">
                     "{phrase}"
                   </li>
                 ))}
@@ -265,7 +260,7 @@ export function ResultsScreen({ scores, userData, onRetake }: ResultsScreenProps
           </div>
 
           <div className="space-y-4">
-            <h3 className="text-lg font-semibold text-gray-100">Explore Other Archetypes:</h3>
+            <h3 className="text-lg font-semibold">Explore Other Archetypes:</h3>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               {archetypes.map((archetype) => (
                 <button
@@ -273,27 +268,27 @@ export function ResultsScreen({ scores, userData, onRetake }: ResultsScreenProps
                   onClick={() => setSelectedArchetype(archetype)}
                   className={`p-4 rounded-lg text-left transition-all ${
                     archetype.name === matchingArchetype.name
-                      ? 'bg-green-900/50 border-2 border-green-500'
-                      : 'bg-gray-800/50 hover:bg-gray-800 border-2 border-transparent'
+                      ? 'bg-primary/20 border-2 border-primary'
+                      : 'bg-secondary/50 hover:bg-secondary border-2 border-transparent'
                   }`}
                 >
-                  <h4 className="font-semibold text-gray-100 mb-1">{archetype.name}</h4>
-                  <p className="text-sm text-gray-300">{archetype.vibe}</p>
+                  <h4 className="font-semibold mb-1">{archetype.name}</h4>
+                  <p className="text-sm text-muted-foreground">{archetype.vibe}</p>
                 </button>
               ))}
             </div>
           </div>
         </div>
 
-        <div className="bg-gray-900 rounded-2xl shadow-xl p-8 border border-gray-800">
+        <div className="bg-card rounded-2xl shadow-xl p-8 border border-border/50">
           <div className="flex flex-col items-center text-center mb-8">
             <img 
               src="/Founding-v1-Wordmark-white.svg" 
               alt="Founding" 
               className="h-8 mb-6"
             />
-            <h3 className="text-2xl font-bold text-gray-100 mb-4">Ready to bring your brand voice to life?</h3>
-            <p className="text-gray-300 max-w-xl mb-6">
+            <h3 className="text-2xl font-bold mb-4">Ready to bring your brand voice to life?</h3>
+            <p className="text-muted-foreground max-w-xl mb-6">
               Let's discuss how we can help you implement your {matchingArchetype.name.toLowerCase()} voice across your brand, marketing, and web presence.
             </p>
           
@@ -311,7 +306,7 @@ export function ResultsScreen({ scores, userData, onRetake }: ResultsScreenProps
                   name="name"
                   placeholder="Your Name"
                   required
-                  className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500 text-gray-100 placeholder-gray-400"
+                  className="w-full px-4 py-3 bg-background/50 backdrop-blur-sm border border-border/50 rounded-lg focus:ring-2 focus:ring-primary/20 focus:border-primary text-foreground placeholder:text-muted-foreground transition-all"
                 />
               </div>
               
@@ -322,7 +317,7 @@ export function ResultsScreen({ scores, userData, onRetake }: ResultsScreenProps
                   defaultValue={userData.email}
                   placeholder="Your Email"
                   required
-                  className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500 text-gray-100 placeholder-gray-400"
+                  className="w-full px-4 py-3 bg-background/50 backdrop-blur-sm border border-border/50 rounded-lg focus:ring-2 focus:ring-primary/20 focus:border-primary text-foreground placeholder:text-muted-foreground transition-all"
                 />
               </div>
               
@@ -332,7 +327,7 @@ export function ResultsScreen({ scores, userData, onRetake }: ResultsScreenProps
                   placeholder="Tell us about your brand and what you'd like help with..."
                   rows={4}
                   required
-                  className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500 text-gray-100 placeholder-gray-400"
+                  className="w-full px-4 py-3 bg-background/50 backdrop-blur-sm border border-border/50 rounded-lg focus:ring-2 focus:ring-primary/20 focus:border-primary text-foreground placeholder:text-muted-foreground transition-all"
                 ></textarea>
               </div>
 
@@ -340,7 +335,7 @@ export function ResultsScreen({ scores, userData, onRetake }: ResultsScreenProps
                 <button 
                   onClick={handleDownload}
                   type="button"
-                  className="w-full flex items-center justify-center gap-2 bg-gray-800 text-green-400 border-2 border-green-500 px-6 py-3 rounded-lg hover:bg-gray-700 transition-colors"
+                  className="w-full flex items-center justify-center gap-2 bg-background text-primary border-2 border-primary px-6 py-3 rounded-lg hover:bg-secondary transition-colors"
                 >
                   <Download className="w-5 h-5" />
                   Download Results
@@ -349,7 +344,7 @@ export function ResultsScreen({ scores, userData, onRetake }: ResultsScreenProps
                 <button 
                   type="submit"
                   disabled={formStatus === 'submitting'}
-                  className="w-full flex items-center justify-center gap-2 bg-gradient-to-r from-green-500 to-green-400 text-black px-6 py-3 rounded-lg shadow-[0_0_15px_rgba(34,197,94,0.3)] hover:shadow-[0_0_25px_rgba(34,197,94,0.4)] transition-shadow disabled:opacity-50"
+                  className="w-full flex items-center justify-center gap-2 bg-primary text-primary-foreground px-6 py-3 rounded-lg shadow-[0_4px_24px_-4px_hsl(var(--primary)_/_0.3)] hover:shadow-[0_4px_32px_-4px_hsl(var(--primary)_/_0.4)] hover:bg-primary/90 transition-all disabled:opacity-50 disabled:pointer-events-none"
                 >
                   {formStatus === 'submitting' ? (
                     'Sending...'
@@ -363,63 +358,63 @@ export function ResultsScreen({ scores, userData, onRetake }: ResultsScreenProps
               </div>
 
               {formStatus === 'success' && (
-                <div className="text-green-400 text-center">
+                <div className="text-primary text-center">
                   Thanks! We'll be in touch soon.
                 </div>
               )}
               
               {formStatus === 'error' && (
-                <div className="text-red-400 text-center">
+                <div className="text-destructive text-center">
                   Something went wrong. Please try again or email us directly.
                 </div>
               )}
             </form>
           </div>
           
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 border-t border-gray-800 pt-8">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 border-t border-border/50 pt-8">
             <div className="text-center">
-              <h4 className="font-semibold text-gray-100 mb-2">Brand Strategy</h4>
-              <p className="text-gray-400 text-sm">Develop a comprehensive brand strategy aligned with your voice archetype</p>
+              <h4 className="font-semibold mb-2">Brand Strategy</h4>
+              <p className="text-muted-foreground text-sm">Develop a comprehensive brand strategy aligned with your voice archetype</p>
             </div>
             <div className="text-center">
-              <h4 className="font-semibold text-gray-100 mb-2">Marketing Implementation</h4>
-              <p className="text-gray-400 text-sm">Create marketing materials that consistently reflect your brand voice</p>
+              <h4 className="font-semibold mb-2">Marketing Implementation</h4>
+              <p className="text-muted-foreground text-sm">Create marketing materials that consistently reflect your brand voice</p>
             </div>
             <div className="text-center">
-              <h4 className="font-semibold text-gray-100 mb-2">Web Presence</h4>
-              <p className="text-gray-400 text-sm">Design a website that embodies your brand voice and engages your audience</p>
+              <h4 className="font-semibold mb-2">Web Presence</h4>
+              <p className="text-muted-foreground text-sm">Design a website that embodies your brand voice and engages your audience</p>
             </div>
           </div>
         </div>
       </div>
 
       {selectedArchetype && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
+        <div className="fixed inset-0 bg-background/80 backdrop-blur-sm flex items-center justify-center p-4 z-50">
           <motion.div
             ref={modalRef}
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.95 }}
-            className="bg-gray-900 rounded-2xl shadow-xl p-8 max-w-2xl w-full max-h-[90vh] overflow-y-auto relative border border-gray-800"
+            className="bg-card rounded-2xl shadow-xl p-8 max-w-2xl w-full max-h-[90vh] overflow-y-auto relative border border-border/50"
           >
             <button
               onClick={() => setSelectedArchetype(null)}
-              className="absolute top-4 right-4 text-gray-400 hover:text-gray-300"
+              className="absolute top-4 right-4 text-muted-foreground hover:text-foreground"
             >
               <X className="w-6 h-6" />
             </button>
 
-            <h3 className="text-2xl font-bold text-gray-100 mb-2">{selectedArchetype.name}</h3>
-            <p className="text-gray-300 mb-6">{selectedArchetype.vibe}</p>
+            <h3 className="text-2xl font-bold mb-2">{selectedArchetype.name}</h3>
+            <p className="text-muted-foreground mb-6">{selectedArchetype.vibe}</p>
 
             <div className="space-y-6">
               <div>
-                <h4 className="text-lg font-semibold text-gray-100 mb-2">Key Traits:</h4>
+                <h4 className="text-lg font-semibold mb-2">Key Traits:</h4>
                 <div className="flex flex-wrap gap-2">
                   {selectedArchetype.traits.map((trait) => (
                     <span
                       key={trait}
-                      className="px-3 py-1 bg-green-900/50 text-green-300 rounded-full text-sm border border-green-700/50"
+                      className="px-3 py-1 bg-primary/20 text-primary rounded-full text-sm border border-primary/50"
                     >
                       {trait}
                     </span>
@@ -429,10 +424,10 @@ export function ResultsScreen({ scores, userData, onRetake }: ResultsScreenProps
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
-                  <h4 className="text-lg font-semibold text-gray-100 mb-4">What to Say:</h4>
+                  <h4 className="text-lg font-semibold mb-4">What to Say:</h4>
                   <ul className="space-y-3">
                     {selectedArchetype.doWrite.map((phrase, index) => (
-                      <li key={index} className="text-gray-300 bg-green-900/20 border border-green-700/30 p-3 rounded-lg">
+                      <li key={index} className="text-muted-foreground bg-primary/5 border border-primary/20 p-3 rounded-lg">
                         "{phrase}"
                       </li>
                     ))}
@@ -440,10 +435,10 @@ export function ResultsScreen({ scores, userData, onRetake }: ResultsScreenProps
                 </div>
 
                 <div>
-                  <h4 className="text-lg font-semibold text-gray-100 mb-4">What Not to Say:</h4>
+                  <h4 className="text-lg font-semibold mb-4">What Not to Say:</h4>
                   <ul className="space-y-3">
                     {selectedArchetype.dontWrite.map((phrase, index) => (
-                      <li key={index} className="text-gray-300 bg-red-900/20 border border-red-700/30 p-3 rounded-lg">
+                      <li key={index} className="text-muted-foreground bg-destructive/5 border border-destructive/20 p-3 rounded-lg">
                         "{phrase}"
                       </li>
                     ))}

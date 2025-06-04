@@ -49,7 +49,6 @@ export function Quiz({ onComplete }: QuizProps) {
       }
     };
 
-    // Prevent scrolling on mobile
     const handleTouchMove = (e: TouchEvent) => {
       e.preventDefault();
     };
@@ -57,7 +56,6 @@ export function Quiz({ onComplete }: QuizProps) {
     window.addEventListener('keydown', handleKeyDown);
     document.body.addEventListener('touchmove', handleTouchMove, { passive: false });
     
-    // Set body height to viewport height to prevent bounce effect on iOS
     document.body.style.height = '100vh';
     document.body.style.overflow = 'hidden';
 
@@ -70,9 +68,9 @@ export function Quiz({ onComplete }: QuizProps) {
   }, [currentIndex]);
 
   return (
-    <div className="fixed inset-0 bg-black flex flex-col items-center justify-center">
+    <div className="min-h-screen flex flex-col items-center justify-center">
       <div className="absolute top-8 left-0 right-0 flex justify-center">
-        <div className="text-gray-400 text-lg">
+        <div className="text-muted-foreground text-lg">
           {currentIndex + 1} / {phrases.length}
         </div>
       </div>
@@ -85,7 +83,7 @@ export function Quiz({ onComplete }: QuizProps) {
         />
       </div>
 
-      <div className="absolute bottom-8 left-0 right-0 flex justify-center text-sm text-gray-400 px-4">
+      <div className="absolute bottom-8 left-0 right-0 flex justify-center text-sm text-muted-foreground px-4">
         <div>Swipe left or right</div>
       </div>
     </div>
