@@ -272,7 +272,7 @@ export function ResultsScreen({ scores, userData, onRetake }: ResultsScreenProps
               <ul className="space-y-3">
                 {matchingArchetype.doWrite.map((phrase, index) => (
                   <li key={index} className="text-muted-foreground bg-success/10 border border-success/30 p-3 rounded-lg">
-                    "{phrase}"
+                    {phrase}
                   </li>
                 ))}
               </ul>
@@ -283,7 +283,7 @@ export function ResultsScreen({ scores, userData, onRetake }: ResultsScreenProps
               <ul className="space-y-3">
                 {matchingArchetype.dontWrite.map((phrase, index) => (
                   <li key={index} className="text-muted-foreground bg-destructive/10 border border-destructive/30 p-3 rounded-lg">
-                    "{phrase}"
+                    {phrase}
                   </li>
                 ))}
               </ul>
@@ -459,7 +459,7 @@ export function ResultsScreen({ scores, userData, onRetake }: ResultsScreenProps
                   <ul className="space-y-3">
                     {selectedArchetype.doWrite.map((phrase, index) => (
                       <li key={index} className="text-muted-foreground bg-success/10 border border-success/30 p-3 rounded-lg">
-                        "{phrase}"
+                        {phrase}
                       </li>
                     ))}
                   </ul>
@@ -470,7 +470,7 @@ export function ResultsScreen({ scores, userData, onRetake }: ResultsScreenProps
                   <ul className="space-y-3">
                     {selectedArchetype.dontWrite.map((phrase, index) => (
                       <li key={index} className="text-muted-foreground bg-destructive/10 border border-destructive/30 p-3 rounded-lg">
-                        "{phrase}"
+                        {phrase}
                       </li>
                     ))}
                   </ul>
