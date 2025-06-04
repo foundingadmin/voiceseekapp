@@ -158,12 +158,12 @@ export function ResultsScreen({ scores, userData, onRetake }: ResultsScreenProps
         label: 'Your Voice Profile',
         data: values,
         backgroundColor: 'hsla(var(--primary) / 0.15)',
-        borderColor: 'hsl(var(--primary))',
+        borderColor: 'hsl(var(--foreground))',
         borderWidth: 2,
-        pointBackgroundColor: 'hsl(var(--primary))',
+        pointBackgroundColor: 'hsl(var(--foreground))',
         pointBorderColor: 'hsl(var(--background))',
         pointHoverBackgroundColor: 'hsl(var(--background))',
-        pointHoverBorderColor: 'hsl(var(--primary))',
+        pointHoverBorderColor: 'hsl(var(--foreground))',
         pointBorderWidth: 2,
         pointHoverBorderWidth: 3,
         pointRadius: 4,
@@ -179,15 +179,15 @@ export function ResultsScreen({ scores, userData, onRetake }: ResultsScreenProps
         max: Math.max(maxScore + 1, 5),
         angleLines: {
           display: true,
-          color: 'hsla(var(--muted-foreground) / 0.2)',
+          color: 'hsla(var(--foreground) / 0.2)',
           lineWidth: 1,
         },
         grid: {
-          color: 'hsla(var(--muted-foreground) / 0.1)',
+          color: 'hsla(var(--foreground) / 0.15)',
           circular: true,
         },
         pointLabels: {
-          color: 'hsl(var(--muted-foreground))',
+          color: 'hsl(var(--foreground))',
           font: {
             size: 14,
             family: 'system-ui',
@@ -209,7 +209,7 @@ export function ResultsScreen({ scores, userData, onRetake }: ResultsScreenProps
       tooltip: {
         backgroundColor: 'hsl(var(--background))',
         titleColor: 'hsl(var(--foreground))',
-        bodyColor: 'hsl(var(--muted-foreground))',
+        bodyColor: 'hsl(var(--foreground))',
         borderColor: 'hsla(var(--border) / 0.5)',
         borderWidth: 1,
         padding: 12,
