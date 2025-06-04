@@ -4,11 +4,11 @@
 
 @layer base {
   :root {
-    --background: 240 10% 3.9%;
+    --background: 230 35% 7%;
     --foreground: 0 0% 98%;
-    --card: 240 10% 3.9%;
+    --card: 230 35% 7%;
     --card-foreground: 0 0% 98%;
-    --popover: 240 10% 3.9%;
+    --popover: 230 35% 7%;
     --popover-foreground: 0 0% 98%;
     --success: 142 76% 36%;
     --success-foreground: 142 76% 97%;
@@ -16,18 +16,18 @@
     --destructive-foreground: 0 85.7% 97.3%;
     --primary: 285 100% 77%;
     --primary-foreground: 285 70% 15%;
-    --secondary: 240 3.7% 15.9%;
+    --secondary: 230 25% 15%;
     --secondary-foreground: 0 0% 98%;
-    --muted: 240 3.7% 15.9%;
+    --muted: 230 25% 15%;
     --muted-foreground: 240 5% 64.9%;
-    --accent: 240 3.7% 15.9%;
+    --accent: 230 25% 15%;
     --accent-foreground: 0 0% 98%;
-    --border: 240 3.7% 15.9%;
-    --input: 240 3.7% 15.9%;
+    --border: 230 25% 15%;
+    --input: 230 25% 15%;
     --ring: 285 100% 77%;
-    --gradient-1: 16 100% 50%;
-    --gradient-2: 350 100% 60%;
-    --gradient-3: 0 100% 50%;
+    --gradient-1: 230 100% 65%;
+    --gradient-2: 285 100% 65%;
+    --gradient-3: 320 100% 65%;
     --radius: 1rem;
   }
 }
@@ -57,9 +57,9 @@
 .animated-gradient {
   background: radial-gradient(
     circle at top left,
-    hsl(var(--gradient-1) / 0.2),
-    hsl(var(--gradient-2) / 0.2) 45%,
-    hsl(var(--gradient-3) / 0.2) 75%,
+    hsl(var(--gradient-1) / 0.15),
+    hsl(var(--gradient-2) / 0.15) 45%,
+    hsl(var(--gradient-3) / 0.15) 75%,
     hsl(var(--background))
   );
   background-size: 200% 200%;
