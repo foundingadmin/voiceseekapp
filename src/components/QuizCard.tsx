@@ -19,26 +19,7 @@ export function QuizCard({ phrase, onSwipe }: QuizCardProps) {
     setActiveDirection(null);
   }, [phrase]);
 
-  const handleDragEnd = async (_: never, info: PanInfo) => {
-    const threshold = 100;
-    const direction = info.offset.x > threshold ? 'right' : info.offset.x < -threshold ? 'left' : null;
-
-    if (direction) {
-      await controls.start({
-        x: direction === 'right' ? 200 : -200,
-        opacity: 0,
-        scale: 0.8,
-        transition: { duration: 0.3 }
-      });
-      onSwipe(direction);
-    } else {
-      controls.start({ x: 0, scale: 1 });
-    }
-    setDragX(0);
-    setActiveDirection(null);
-  };
-
-  const handleButtonClick = async (direction: 'left' | 'right') => {
+  const animateAndSwipe = async (direction: 'left' | 'right') => {
     setActiveDirection(direction);
     await controls.start({
       x: direction === 'right' ? 200 : -200,
@@ -49,6 +30,31 @@ export function QuizCard({ phrase, onSwipe }: QuizCardProps) {
     onSwipe(direction);
     setActiveDirection(null);
   };
+
+  const handleDragEnd = async (_: never, info: PanInfo) => {
+    const threshold = 100;
+    const direction = info.offset.x > threshold ? 'right' : info.offset.x < -threshold ? 'left' : null;
+
+    if (direction) {
+      await animateAndSwipe(direction);
+    } else {
+      controls.start({ x: 0, scale: 1 });
+    }
+    setDragX(0);
+  };
+
+  useEffect(() => {
+    const handleKeyDown = async (event: KeyboardEvent) => {
+      if (event.key === 'ArrowLeft') {
+        await animateAndSwipe('left');
+      } else if (event.key === 'ArrowRight') {
+        await animateAndSwipe('right');
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, []);
 
   const getBackgroundStyle = () => {
     const intensity = Math.min(Math.abs(dragX) / 100, 1) * 0.3;
@@ -99,7 +105,7 @@ export function QuizCard({ phrase, onSwipe }: QuizCardProps) {
         
         <div className="grid grid-cols-2 gap-3 mt-8">
           <button
-            onClick={() => handleButtonClick('left')}
+            onClick={() => animateAndSwipe('left')}
             className={`flex items-center justify-center gap-1.5 text-muted-foreground text-sm p-3 rounded-xl transition-all duration-200 border-2 ${
               activeDirection === 'left'
                 ? 'bg-destructive/20 border-destructive'
@@ -110,7 +116,7 @@ export function QuizCard({ phrase, onSwipe }: QuizCardProps) {
             <span className="whitespace-nowrap">Not my vibe</span>
           </button>
           <button
-            onClick={() => handleButtonClick('right')}
+            onClick={() => animateAndSwipe('right')}
             className={`flex items-center justify-center gap-1.5 text-muted-foreground text-sm p-3 rounded-xl transition-all duration-200 border-2 ${
               activeDirection === 'right'
                 ? 'bg-success/20 border-success'
