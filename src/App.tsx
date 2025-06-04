@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { IntroScreen } from './components/IntroScreen';
 import { Quiz } from './components/Quiz';
 import { ResultsScreen } from './components/ResultsScreen';
+import { Footer } from './components/Footer';
 import { AppState, UserData } from './types';
 
 export default function App() {
@@ -43,13 +44,14 @@ export default function App() {
         </div>
         <div className="absolute inset-0 bg-gradient-to-b from-background/80 via-background/40 to-background/80 backdrop-blur-[1px]" />
       </div>
-      <div className="relative z-10">
+      <div className="relative z-10 pb-16">
         {appState === 'intro' && <IntroScreen onStart={handleStart} />}
         {appState === 'quiz' && <Quiz onComplete={handleQuizComplete} />}
         {appState === 'results' && scores && userData && (
           <ResultsScreen scores={scores} userData={userData} onRetake={handleRetake} />
         )}
       </div>
+      <Footer />
     </div>
   );
 }

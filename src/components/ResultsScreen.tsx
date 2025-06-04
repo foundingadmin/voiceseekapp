@@ -312,13 +312,13 @@ export function ResultsScreen({ scores, userData, onRetake }: ResultsScreenProps
         <div className="bg-card/50 backdrop-blur-sm rounded-[2rem] shadow-[0_8px_32px_rgba(0,0,0,0.4)] p-8 border border-border/50">
           <div className="flex flex-col items-center text-center mb-8">
             <img 
-              src="/Founding-v1-Wordmark-white.svg" 
+              src="/Founding-v1-Brandmark-white copy.svg" 
               alt="Founding" 
-              className="h-8 mb-6"
+              className="w-16 mb-6"
             />
             <h3 className="text-2xl font-bold mb-4">Ready to bring your brand voice to life?</h3>
             <p className="text-muted-foreground max-w-xl mb-6">
-              Let's discuss how we can help you implement your {matchingArchetype.name.toLowerCase()} voice across your brand, marketing, and web presence.
+              Let's discuss how we can help you implement your voice across your brand, marketing, and website.
             </p>
           
             <form 
