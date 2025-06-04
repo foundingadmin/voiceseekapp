@@ -93,26 +93,26 @@ export function IntroScreen({ onStart }: IntroScreenProps) {
           Swipe through our interactive quiz to uncover your unique brand voice archetype and get personalized recommendations.
         </p>
 
-        <form onSubmit={handleSubmit} className="max-w-sm mx-auto space-y-4">
-          <div className="relative">
+        <form onSubmit={handleSubmit} className="max-w-sm mx-auto">
+          <div className="relative mb-4">
             <input
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="Enter your email to start"
               required
-              className="w-full px-6 py-4 bg-secondary/50 backdrop-blur-sm border-2 border-secondary rounded-2xl text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-colors"
+              className="w-full px-6 py-4 bg-background/50 backdrop-blur-sm border border-border/50 rounded-xl text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all"
             />
           </div>
           {error && (
-            <p className="text-destructive text-sm">{error}</p>
+            <p className="text-destructive text-sm mb-4">{error}</p>
           )}
           <motion.button
             type="submit"
             disabled={isSubmitting}
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
-            className="w-full bg-primary hover:bg-primary/90 text-primary-foreground px-8 py-4 rounded-2xl text-lg font-semibold shadow-lg shadow-primary/25 hover:shadow-xl hover:shadow-primary/30 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+            className="w-full bg-primary text-primary-foreground px-8 py-4 rounded-xl text-lg font-semibold shadow-[0_4px_24px_-4px_hsl(var(--primary)_/_0.3)] hover:shadow-[0_4px_32px_-4px_hsl(var(--primary)_/_0.4)] hover:bg-primary/90 transition-all disabled:opacity-50 disabled:pointer-events-none"
           >
             {isSubmitting ? 'Starting...' : 'Start Quiz'}
           </motion.button>
