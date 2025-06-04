@@ -1,3 +1,67 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 260 35% 7%;
+    --foreground: 0 0% 98%;
+    --card: 260 35% 7%;
+    --card-foreground: 0 0% 98%;
+    --popover: 260 35% 7%;
+    --popover-foreground: 0 0% 98%;
+    --success: 142 76% 36%;
+    --success-foreground: 142 76% 97%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 85.7% 97.3%;
+    --primary: 280 100% 77%;
+    --primary-foreground: 280 70% 15%;
+    --secondary: 260 25% 15%;
+    --secondary-foreground: 0 0% 98%;
+    --muted: 260 25% 15%;
+    --muted-foreground: 240 5% 64.9%;
+    --accent: 260 25% 15%;
+    --accent-foreground: 0 0% 98%;
+    --border: 260 25% 15%;
+    --input: 260 25% 15%;
+    --ring: 280 100% 77%;
+    --gradient-1: 285 100% 65%;
+    --gradient-2: 280 100% 65%;
+    --gradient-3: 260 100% 65%;
+    --radius: 1rem;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+}
+
+@keyframes gradient {
+  0% {
+    background-position: 0% 0%;
+  }
+  50% {
+    background-position: 100% 100%;
+  }
+  100% {
+    background-position: 0% 0%;
+  }
+}
+
+.animated-gradient {
+  background: radial-gradient(
+    circle at top left,
+    hsl(var(--gradient-1) / 0.2),
+    hsl(var(--gradient-2) / 0.2) 45%,
+    hsl(var(--gradient-3) / 0.2) 75%,
+    hsl(var(--background))
+  );
+  background-size: 200% 200%;
+  animation: gradient 15s ease infinite;
+}

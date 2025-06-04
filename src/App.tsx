@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { IntroScreen } from './components/IntroScreen';
 import { Quiz } from './components/Quiz';
 import { ResultsScreen } from './components/ResultsScreen';
+import { Footer } from './components/Footer';
 import { AppState, UserData } from './types';
 
 export default function App() {
@@ -25,26 +26,32 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-black text-gray-100 relative">
+    <div className="min-h-screen bg-background text-foreground relative overflow-hidden">
       <div className="fixed inset-0 z-0">
-        <div 
-          className="w-full h-full"
-          style={{
-            backgroundImage: 'url(/background-02.gif)',
-            backgroundSize: 'cover',
-            backgroundPosition: 'center',
-            opacity: 0.2
-          }}
-        />
-        <div className="absolute inset-0 bg-black bg-opacity-50" />
+        <div className="absolute inset-0 animated-gradient opacity-50" />
+        <div className="absolute inset-0">
+          <img
+            src="/wave-pattern.svg"
+            alt=""
+            className="absolute inset-0 w-full h-full object-cover"
+            style={{
+              mixBlendMode: 'soft-light',
+              opacity: 0.7,
+              transform: 'scale(1.5)',
+              filter: 'blur(1px)'
+            }}
+          />
+        </div>
+        <div className="absolute inset-0 bg-gradient-to-b from-background/80 via-background/40 to-background/80 backdrop-blur-[1px]" />
       </div>
-      <div className="relative z-10">
+      <div className="relative z-10 pb-16">
         {appState === 'intro' && <IntroScreen onStart={handleStart} />}
         {appState === 'quiz' && <Quiz onComplete={handleQuizComplete} />}
         {appState === 'results' && scores && userData && (
           <ResultsScreen scores={scores} userData={userData} onRetake={handleRetake} />
         )}
       </div>
+      <Footer />
     </div>
   );
 }
