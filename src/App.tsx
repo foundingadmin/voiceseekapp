@@ -27,18 +27,19 @@ export default function App() {
   return (
     <div className="min-h-screen bg-background text-foreground relative overflow-hidden">
       <div className="fixed inset-0 z-0">
-        <div className="absolute inset-0 animated-gradient" />
-        <div className="absolute inset-0 opacity-10">
+        <div className="absolute inset-0 animated-gradient opacity-50" />
+        <div className="absolute inset-0">
           <img
             src="/Wave-Black.svg"
             alt=""
             className="absolute inset-0 w-full h-full object-cover"
             style={{
-              mixBlendMode: 'plus-lighter'
+              mixBlendMode: 'soft-light',
+              opacity: 0.3
             }}
           />
         </div>
-        <div className="absolute inset-0 bg-gradient-to-b from-background/80 via-background/50 to-background/80 backdrop-blur-[2px]" />
+        <div className="absolute inset-0 bg-gradient-to-b from-background/90 via-background/50 to-background/90 backdrop-blur-[1px]" />
       </div>
       <div className="relative z-10">
         {appState === 'intro' && <IntroScreen onStart={handleStart} />}
