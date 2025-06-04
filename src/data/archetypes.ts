@@ -52,7 +52,7 @@ export const archetypes: VoiceArchetype[] = [
       'You don\'t have to go it alone',
       'Let\'s build something meaningful—together',
       'We listen before we lead',
-      'Whatever you\'re working through, we'll help carry it',
+      'Whatever you\'re working through, we\'ll help carry it',
       'Your experience matters. We\'re listening'
     ],
     dontWrite: [
@@ -72,7 +72,7 @@ export const archetypes: VoiceArchetype[] = [
       'The future doesn\'t wait. Neither should you',
       'Imagine more. Build boldly',
       'We\'re here to ignite movements, not just metrics',
-      'You\'re not just launching a brand—you're leading a shift',
+      'You\'re not just launching a brand—you\'re leading a shift',
       'You see a wall. We see a window',
       'Let\'s build the thing no one else dares to'
     ],
