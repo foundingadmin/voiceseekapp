@@ -1,4 +1,6 @@
 import { motion } from 'framer-motion';
+import { Chart as ChartJS, RadialLinearScale, PointElement, LineElement, Filler, Tooltip, Legend } from 'chart.js';
+import { Radar } from 'react-chartjs-2';
 import { archetypes } from '../data/archetypes';
 import { TraitName, VoiceArchetype, UserData } from '../types';
 import { Download, ArrowRight, X, RefreshCw, Share2 } from 'lucide-react';
@@ -6,6 +8,8 @@ import { useState, useRef } from 'react';
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
 import emailjs from '@emailjs/browser';
+
+ChartJS.register(RadialLinearScale, PointElement, LineElement, Filler, Tooltip, Legend);
 
 interface ResultsScreenProps {
   scores: Record<string, number>;
@@ -59,9 +63,12 @@ function determineArchetype(scores: Record<string, number>): VoiceArchetype {
 export function ResultsScreen({ scores, userData, onRetake }: ResultsScreenProps) {
   const [selectedArchetype, setSelectedArchetype] = useState<VoiceArchetype | null>(null);
   const [formStatus, setFormStatus] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle');
+  const chartRef = useRef<HTMLDivElement>(null);
   const formRef = useRef<HTMLFormElement>(null);
   const modalRef = useRef<HTMLDivElement>(null);
   const traits = Object.keys(scores) as TraitName[];
+  const values = traits.map(trait => scores[trait]);
+  const maxScore = Math.max(...values);
 
   const topTraits = traits
     .map(trait => ({ trait, score: scores[trait] }))
@@ -144,6 +151,82 @@ export function ResultsScreen({ scores, userData, onRetake }: ResultsScreenProps
     pdf.save('voiceseek-results.pdf');
   };
 
+  const chartData = {
+    labels: traits,
+    datasets: [
+      {
+        label: 'Your Voice Profile',
+        data: values,
+        backgroundColor: 'hsla(var(--primary) / 0.15)',
+        borderColor: 'hsl(var(--primary))',
+        borderWidth: 2,
+        pointBackgroundColor: 'hsl(var(--primary))',
+        pointBorderColor: 'hsl(var(--background))',
+        pointHoverBackgroundColor: 'hsl(var(--background))',
+        pointHoverBorderColor: 'hsl(var(--primary))',
+        pointBorderWidth: 2,
+        pointHoverBorderWidth: 2,
+        pointRadius: 4,
+        pointHoverRadius: 5,
+      },
+    ],
+  };
+
+  const chartOptions = {
+    scales: {
+      r: {
+        min: 0,
+        max: Math.max(maxScore, 3),
+        beginAtZero: true,
+        angleLines: {
+          display: true,
+          color: 'hsl(var(--muted-foreground) / 0.2)',
+        },
+        grid: {
+          color: 'hsl(var(--muted-foreground) / 0.2)',
+          circular: true,
+        },
+        pointLabels: {
+          color: 'hsl(var(--muted-foreground))',
+          font: {
+            size: 14,
+            family: 'system-ui',
+            weight: '500'
+          },
+          padding: 20,
+        },
+        ticks: {
+          display: false,
+          stepSize: 1,
+        },
+      },
+    },
+    plugins: {
+      legend: {
+        display: false,
+      },
+      tooltip: {
+        backgroundColor: 'hsl(var(--background))',
+        titleColor: 'hsl(var(--foreground))',
+        bodyColor: 'hsl(var(--muted-foreground))',
+        borderColor: 'hsl(var(--border))',
+        borderWidth: 1,
+        padding: 12,
+        boxPadding: 6,
+        usePointStyle: true,
+        callbacks: {
+          title: (items: any[]) => items[0].label,
+          label: (item: any) => `Score: ${item.formattedValue}`,
+        },
+      },
+    },
+    elements: {
+      line: {
+        tension: 0.4,
+      },
+    },
+  };
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -177,6 +260,10 @@ export function ResultsScreen({ scores, userData, onRetake }: ResultsScreenProps
           <p className="text-muted-foreground mb-8">
             Your brand voice leans towards {topTraits.join(', ')}. {matchingArchetype.vibe}
           </p>
+
+          <div ref={chartRef} className="aspect-square max-w-md mx-auto mb-8 bg-background/50 backdrop-blur-sm p-6 rounded-xl border border-border/50">
+            <Radar data={chartData} options={chartOptions} />
+          </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
             <div>
