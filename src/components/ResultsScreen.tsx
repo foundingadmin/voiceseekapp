@@ -78,6 +78,81 @@ export function ResultsScreen({ scores, userData, onRetake }: ResultsScreenProps
 
   const matchingArchetype = determineArchetype(scores);
 
+  const chartData = {
+    labels: traits,
+    datasets: [
+      {
+        label: 'Your Voice Profile',
+        data: values,
+        backgroundColor: 'rgba(217, 111, 255, 0.2)',
+        borderColor: '#D96FFF',
+        borderWidth: 2,
+        pointBackgroundColor: '#FFFFFF',
+        pointBorderColor: '#D96FFF',
+        pointHoverBackgroundColor: '#FFFFFF',
+        pointHoverBorderColor: '#D96FFF',
+        pointBorderWidth: 2,
+        pointHoverBorderWidth: 2,
+        pointRadius: 4,
+        pointHoverRadius: 5,
+      },
+    ],
+  };
+
+  const chartOptions = {
+    scales: {
+      r: {
+        min: 0,
+        max: Math.max(maxScore, 3),
+        beginAtZero: true,
+        angleLines: {
+          display: true,
+          color: 'rgba(255, 255, 255, 0.1)',
+        },
+        grid: {
+          color: 'rgba(255, 255, 255, 0.1)',
+          circular: true,
+        },
+        pointLabels: {
+          color: '#EEEEEE',
+          font: {
+            size: 12,
+            family: '-apple-system, BlinkMacSystemFont, system-ui, sans-serif',
+          },
+          padding: 20,
+        },
+        ticks: {
+          display: false,
+          stepSize: 1,
+        },
+      },
+    },
+    plugins: {
+      legend: {
+        display: false,
+      },
+      tooltip: {
+        backgroundColor: 'rgba(30, 30, 30, 0.9)',
+        titleColor: '#FFFFFF',
+        bodyColor: '#EEEEEE',
+        borderColor: 'rgba(255, 255, 255, 0.1)',
+        borderWidth: 1,
+        padding: 12,
+        boxPadding: 6,
+        usePointStyle: true,
+        callbacks: {
+          title: (items: any[]) => items[0].label,
+          label: (item: any) => `Score: ${item.formattedValue}`,
+        },
+      },
+    },
+    elements: {
+      line: {
+        tension: 0.4,
+      },
+    },
+  };
+
   const handleShare = () => {
     const shareText = `I discovered my brand voice archetype: ${matchingArchetype.name}! Find yours at VoiceSeek`;
     const shareUrl = window.location.href;
@@ -149,82 +224,6 @@ export function ResultsScreen({ scores, userData, onRetake }: ResultsScreenProps
     pdf.text('Email: admin@foundingcreative.com', 20, pdf.autoTable.previous.finalY + 40);
 
     pdf.save('voiceseek-results.pdf');
-  };
-
-  const chartData = {
-    labels: traits,
-    datasets: [
-      {
-        label: 'Your Voice Profile',
-        data: values,
-        backgroundColor: 'hsla(var(--primary) / 0.15)',
-        borderColor: 'hsl(var(--primary))',
-        borderWidth: 2,
-        pointBackgroundColor: 'hsl(var(--primary))',
-        pointBorderColor: 'hsl(var(--background))',
-        pointHoverBackgroundColor: 'hsl(var(--background))',
-        pointHoverBorderColor: 'hsl(var(--primary))',
-        pointBorderWidth: 2,
-        pointHoverBorderWidth: 2,
-        pointRadius: 4,
-        pointHoverRadius: 5,
-      },
-    ],
-  };
-
-  const chartOptions = {
-    scales: {
-      r: {
-        min: 0,
-        max: Math.max(maxScore, 3),
-        beginAtZero: true,
-        angleLines: {
-          display: true,
-          color: 'hsl(var(--muted-foreground) / 0.2)',
-        },
-        grid: {
-          color: 'hsl(var(--muted-foreground) / 0.2)',
-          circular: true,
-        },
-        pointLabels: {
-          color: 'hsl(var(--muted-foreground))',
-          font: {
-            size: 14,
-            family: 'system-ui',
-            weight: '500'
-          },
-          padding: 20,
-        },
-        ticks: {
-          display: false,
-          stepSize: 1,
-        },
-      },
-    },
-    plugins: {
-      legend: {
-        display: false,
-      },
-      tooltip: {
-        backgroundColor: 'hsl(var(--background))',
-        titleColor: 'hsl(var(--foreground))',
-        bodyColor: 'hsl(var(--muted-foreground))',
-        borderColor: 'hsl(var(--border))',
-        borderWidth: 1,
-        padding: 12,
-        boxPadding: 6,
-        usePointStyle: true,
-        callbacks: {
-          title: (items: any[]) => items[0].label,
-          label: (item: any) => `Score: ${item.formattedValue}`,
-        },
-      },
-    },
-    elements: {
-      line: {
-        tension: 0.4,
-      },
-    },
   };
 
   return (
