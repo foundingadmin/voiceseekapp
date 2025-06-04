@@ -101,7 +101,7 @@ export function IntroScreen({ onStart }: IntroScreenProps) {
               onChange={(e) => setEmail(e.target.value)}
               placeholder="Enter your email to start"
               required
-              className="w-full px-6 py-4 bg-background/50 backdrop-blur-sm border border-border/50 rounded-full text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all"
+              className="w-full h-[56px] px-6 bg-background/50 backdrop-blur-sm border-2 border-border/80 rounded-full text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all"
             />
           </div>
           {error && (
@@ -112,7 +112,7 @@ export function IntroScreen({ onStart }: IntroScreenProps) {
             disabled={isSubmitting}
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
-            className="w-full bg-primary text-primary-foreground px-8 py-4 rounded-full text-lg font-semibold shadow-[0_4px_24px_-4px_hsl(var(--primary)_/_0.3)] hover:shadow-[0_4px_32px_-4px_hsl(var(--primary)_/_0.4)] hover:bg-primary/90 transition-all disabled:opacity-50 disabled:pointer-events-none"
+            className="w-full h-[56px] bg-primary text-primary-foreground px-8 rounded-full text-lg font-semibold shadow-[0_4px_24px_-4px_hsl(var(--primary)_/_0.3)] hover:shadow-[0_4px_32px_-4px_hsl(var(--primary)_/_0.4)] hover:bg-primary/90 transition-all disabled:opacity-50 disabled:pointer-events-none"
           >
             {isSubmitting ? 'Starting...' : 'Start Quiz'}
           </motion.button>
