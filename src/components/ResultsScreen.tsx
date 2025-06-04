@@ -193,7 +193,7 @@ export function ResultsScreen({ scores, userData, onRetake }: ResultsScreenProps
     pdf.text('VoiceSeek Results', 20, 30);
     
     pdf.setFontSize(20);
-    pdf.text(`Your Brand Voice Archetype: ${matchingArchetype.name}`, 20, 50);
+    pdf.text(`Your Archetype ${matchingArchetype.name}`, 20, 50);
     
     pdf.setFontSize(12);
     const description = `Your brand voice leans towards ${topTraits.join(', ')}. ${matchingArchetype.vibe}`;
@@ -208,7 +208,7 @@ export function ResultsScreen({ scores, userData, onRetake }: ResultsScreenProps
     });
 
     pdf.setFontSize(16);
-    pdf.text('Writing Examples:', 20, pdf.autoTable.previous.finalY + 20);
+    pdf.text('Writing Examples', 20, pdf.autoTable.previous.finalY + 20);
 
     pdf.autoTable({
       head: [['Do Write', 'Don\'t Write']],
@@ -253,7 +253,7 @@ export function ResultsScreen({ scores, userData, onRetake }: ResultsScreenProps
         </div>
 
         <div className="bg-card/50 backdrop-blur-sm rounded-[2rem] shadow-[0_8px_32px_rgba(0,0,0,0.4)] p-8 mb-8 relative border border-border/50">
-          <h1 className="text-3xl font-bold mb-2">Your Voice Archetype:</h1>
+          <h1 className="text-3xl font-bold mb-2">Your Archetype</h1>
           <h2 className="text-2xl text-primary font-semibold mb-6">
             {matchingArchetype.name}
           </h2>
@@ -268,7 +268,7 @@ export function ResultsScreen({ scores, userData, onRetake }: ResultsScreenProps
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
             <div>
-              <h3 className="text-lg font-semibold mb-4">✍️ Write Like This:</h3>
+              <h3 className="text-lg font-semibold mb-4">✍️ Write Like This</h3>
               <ul className="space-y-3">
                 {matchingArchetype.doWrite.map((phrase, index) => (
                   <li key={index} className="text-muted-foreground bg-success/10 border border-success/30 p-3 rounded-lg">
@@ -279,7 +279,7 @@ export function ResultsScreen({ scores, userData, onRetake }: ResultsScreenProps
             </div>
 
             <div>
-              <h3 className="text-lg font-semibold mb-4">⛔ Avoid Writing Like This:</h3>
+              <h3 className="text-lg font-semibold mb-4">⛔ Avoid Writing Like This</h3>
               <ul className="space-y-3">
                 {matchingArchetype.dontWrite.map((phrase, index) => (
                   <li key={index} className="text-muted-foreground bg-destructive/10 border border-destructive/30 p-3 rounded-lg">
@@ -291,7 +291,7 @@ export function ResultsScreen({ scores, userData, onRetake }: ResultsScreenProps
           </div>
 
           <div className="space-y-4">
-            <h3 className="text-lg font-semibold">Explore Other Archetypes:</h3>
+            <h3 className="text-lg font-semibold">Explore Other Archetypes</h3>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               {archetypes.map((archetype) => (
                 <button
@@ -440,7 +440,7 @@ export function ResultsScreen({ scores, userData, onRetake }: ResultsScreenProps
 
             <div className="space-y-6">
               <div>
-                <h4 className="text-lg font-semibold mb-2">Key Traits:</h4>
+                <h4 className="text-lg font-semibold mb-2">Key Traits</h4>
                 <div className="flex flex-wrap gap-2">
                   {selectedArchetype.traits.map((trait) => (
                     <span
@@ -455,7 +455,7 @@ export function ResultsScreen({ scores, userData, onRetake }: ResultsScreenProps
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
-                  <h4 className="text-lg font-semibold mb-4">What to Say:</h4>
+                  <h4 className="text-lg font-semibold mb-4">What to Say</h4>
                   <ul className="space-y-3">
                     {selectedArchetype.doWrite.map((phrase, index) => (
                       <li key={index} className="text-muted-foreground bg-success/10 border border-success/30 p-3 rounded-lg">
@@ -466,7 +466,7 @@ export function ResultsScreen({ scores, userData, onRetake }: ResultsScreenProps
                 </div>
 
                 <div>
-                  <h4 className="text-lg font-semibold mb-4">What Not to Say:</h4>
+                  <h4 className="text-lg font-semibold mb-4">What Not to Say</h4>
                   <ul className="space-y-3">
                     {selectedArchetype.dontWrite.map((phrase, index) => (
                       <li key={index} className="text-muted-foreground bg-destructive/10 border border-destructive/30 p-3 rounded-lg">
