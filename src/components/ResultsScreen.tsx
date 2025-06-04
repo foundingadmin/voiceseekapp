@@ -403,15 +403,15 @@ export function ResultsScreen({ scores, userData, onRetake }: ResultsScreenProps
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 border-t border-border/50 pt-8">
             <div className="text-center">
               <h4 className="font-semibold mb-2">Brand Strategy</h4>
-              <p className="text-muted-foreground text-sm">Develop a comprehensive brand strategy aligned with your voice archetype</p>
+              <p className="text-muted-foreground text-sm">Turn your voice into a website-ready strategy that defines how your brand speaks, looks, and acts online.</p>
             </div>
             <div className="text-center">
-              <h4 className="font-semibold mb-2">Marketing Implementation</h4>
-              <p className="text-muted-foreground text-sm">Create marketing materials that consistently reflect your brand voice</p>
+              <h4 className="font-semibold mb-2">Messaging & Creative</h4>
+              <p className="text-muted-foreground text-sm">Craft powerful messaging, visuals, and user flows rooted in your archetype, built to resonate and convert.</p>
             </div>
             <div className="text-center">
-              <h4 className="font-semibold mb-2">Web Presence</h4>
-              <p className="text-muted-foreground text-sm">Design a website that embodies your brand voice and engages your audience</p>
+              <h4 className="font-semibold mb-2">Website Design</h4>
+              <p className="text-muted-foreground text-sm">Bring it all to life through custom digital activations that reflect your unique voice and move audiences to act.</p>
             </div>
           </div>
         </div>
