@@ -3,7 +3,7 @@ import { Chart as ChartJS, RadialLinearScale, PointElement, LineElement, Filler,
 import { Radar } from 'react-chartjs-2';
 import { archetypes } from '../data/archetypes';
 import { TraitName, VoiceArchetype, UserData } from '../types';
-import { Download, ArrowRight, X, RefreshCw, Share2, Info } from 'lucide-react';
+import { Download, ArrowRight, X, RefreshCw, Share2, Info, ExternalLink, Mail } from 'lucide-react';
 import { useState, useRef } from 'react';
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
@@ -528,20 +528,22 @@ export function ResultsScreen({ scores, userData, onRetake }: ResultsScreenProps
 
               <div className="pt-6 border-t border-border/50">
                 <p className="font-semibold mb-4">Need help shaping your brand's voice across messaging, design, and web?</p>
-                <div className="space-y-2">
+                <div className="flex flex-col sm:flex-row gap-4">
                   <a
                     href="https://foundingcreative.com"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="block text-primary hover:text-primary/80 transition-colors"
+                    className="flex items-center justify-center gap-2 bg-primary text-primary-foreground px-6 py-3 rounded-lg shadow-[0_4px_24px_-4px_hsl(var(--primary)_/_0.3)] hover:shadow-[0_4px_32px_-4px_hsl(var(--primary)_/_0.4)] hover:bg-primary/90 transition-all flex-1"
                   >
-                    Visit foundingcreative.com
+                    <ExternalLink className="w-5 h-5" />
+                    <span>Visit Website</span>
                   </a>
                   <a
                     href="mailto:admin@foundingcreative.com"
-                    className="block text-primary hover:text-primary/80 transition-colors"
+                    className="flex items-center justify-center gap-2 bg-secondary/50 backdrop-blur-sm text-primary border-2 border-primary px-6 py-3 rounded-lg hover:bg-secondary/80 transition-colors flex-1"
                   >
-                    Email us directly
+                    <Mail className="w-5 h-5" />
+                    <span>Send Email</span>
                   </a>
                 </div>
               </div>
