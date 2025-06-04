@@ -2,7 +2,7 @@ import { VoiceArchetype } from '../types';
 
 export const archetypes: VoiceArchetype[] = [
   {
-    name: 'The Spark',
+    name: '✨ The Spark',
     traits: ['Playfulness', 'Boldness', 'Inspiration'],
     vibe: 'Energetic, cheeky, a little rebellious',
     doWrite: [
@@ -23,7 +23,7 @@ export const archetypes: VoiceArchetype[] = [
     ]
   },
   {
-    name: 'The Sage',
+    name: '🎓 The Sage',
     traits: ['Sophistication', 'Clarity', 'Formality'],
     vibe: 'Intelligent, polished, deeply credible',
     doWrite: [
@@ -44,7 +44,7 @@ export const archetypes: VoiceArchetype[] = [
     ]
   },
   {
-    name: 'The Companion',
+    name: '🤝 The Companion',
     traits: ['Warmth', 'Empathy', 'Clarity'],
     vibe: 'Friendly, reassuring, emotionally intelligent',
     doWrite: [
@@ -65,7 +65,7 @@ export const archetypes: VoiceArchetype[] = [
     ]
   },
   {
-    name: 'The Visionary',
+    name: '🚀 The Visionary',
     traits: ['Inspiration', 'Sophistication', 'Boldness'],
     vibe: 'Future-forward, idealistic, motivational',
     doWrite: [

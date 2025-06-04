@@ -21,27 +21,27 @@ function determineArchetype(scores: Record<string, number>): VoiceArchetype {
   const archetypeScores = archetypes.map(archetype => {
     let score = 0;
     
-    if (archetype.name === 'The Spark') {
+    if (archetype.name === '✨ The Spark') {
       if ((scores.Playfulness >= 2 && scores.Boldness >= 2) &&
           (scores.Playfulness >= 3 || scores.Boldness >= 3)) {
         score += 3;
       }
     }
     
-    if (archetype.name === 'The Sage') {
+    if (archetype.name === '🎓 The Sage') {
       const relevantTraits = ['Sophistication', 'Clarity', 'Formality'];
       const highScores = relevantTraits.filter(trait => scores[trait] >= 2).length;
       if (highScores >= 2) score += 3;
     }
     
-    if (archetype.name === 'The Companion') {
+    if (archetype.name === '🤝 The Companion') {
       if ((scores.Warmth >= 2 && scores.Empathy >= 2) &&
           (scores.Warmth >= 3 || scores.Empathy >= 3)) {
         score += 3;
       }
     }
     
-    if (archetype.name === 'The Visionary') {
+    if (archetype.name === '🚀 The Visionary') {
       if (scores.Inspiration >= 3 &&
           (scores.Boldness >= 2 || scores.Sophistication >= 2)) {
         score += 3;
@@ -253,10 +253,8 @@ export function ResultsScreen({ scores, userData, onRetake }: ResultsScreenProps
         </div>
 
         <div className="bg-card/50 backdrop-blur-sm rounded-[2rem] shadow-[0_8px_32px_rgba(0,0,0,0.4)] p-8 mb-8 relative border border-border/50">
-          <h1 className="text-3xl font-bold mb-2">Your Archetype</h1>
-          <h2 className="text-2xl text-primary font-semibold mb-6">
-            {matchingArchetype.name}
-          </h2>
+          <div className="text-base font-normal text-muted-foreground mb-1">Your Archetype</div>
+          <h1 className="text-4xl font-bold text-foreground mb-6">{matchingArchetype.name}</h1>
           
           <p className="text-muted-foreground mb-8">
             Your brand voice leans towards {topTraits.join(', ')}. {matchingArchetype.vibe}
@@ -435,7 +433,8 @@ export function ResultsScreen({ scores, userData, onRetake }: ResultsScreenProps
               <X className="w-6 h-6" />
             </button>
 
-            <h3 className="text-2xl font-bold mb-2">{selectedArchetype.name}</h3>
+            <div className="text-base font-normal text-muted-foreground mb-1">Archetype</div>
+            <h3 className="text-3xl font-bold mb-2">{selectedArchetype.name}</h3>
             <p className="text-muted-foreground mb-6">{selectedArchetype.vibe}</p>
 
             <div className="space-y-6">
