@@ -27,17 +27,20 @@ export default function App() {
   return (
     <div className="min-h-screen bg-background text-foreground relative overflow-hidden">
       <div className="fixed inset-0 z-0">
+        <div className="absolute inset-0 animated-gradient opacity-30" />
+        <div className="absolute inset-0 opacity-30">
+          <img
+            src="/Wave-Black.svg"
+            alt=""
+            className="absolute inset-0 w-full h-full object-cover"
+            style={{
+              filter: 'brightness(0.1) contrast(0.8)',
+              mixBlendMode: 'overlay'
+            }}
+          />
+        </div>
         <div 
-          className="absolute inset-0 w-full h-full"
-          style={{
-            backgroundImage: 'url(/background-02.gif)',
-            backgroundSize: 'cover',
-            backgroundPosition: 'center',
-            opacity: 0.15
-          }}
-        />
-        <div 
-          className="absolute inset-0 bg-gradient-to-b from-background/80 to-background/20 backdrop-blur-[1px]" 
+          className="absolute inset-0 bg-gradient-to-b from-background/90 to-background/50 backdrop-blur-[1px]" 
         />
       </div>
       <div className="relative z-10">
