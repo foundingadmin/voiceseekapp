@@ -100,6 +100,8 @@ export function ResultsScreen({ scores, userData, onRetake }: ResultsScreenProps
   };
 
   const chartOptions = {
+    responsive: true,
+    maintainAspectRatio: true,
     scales: {
       r: {
         min: 0,
@@ -116,10 +118,10 @@ export function ResultsScreen({ scores, userData, onRetake }: ResultsScreenProps
         pointLabels: {
           color: '#EEEEEE',
           font: {
-            size: 12,
+            size: window.innerWidth < 768 ? 10 : 12,
             family: '-apple-system, BlinkMacSystemFont, system-ui, sans-serif',
           },
-          padding: 20,
+          padding: window.innerWidth < 768 ? 8 : 20,
         },
         ticks: {
           display: false,
@@ -260,7 +262,7 @@ export function ResultsScreen({ scores, userData, onRetake }: ResultsScreenProps
             Your brand voice leans towards {topTraits.join(', ')}. {matchingArchetype.vibe}
           </p>
 
-          <div ref={chartRef} className="aspect-square max-w-3xl mx-auto mb-8 p-8">
+          <div ref={chartRef} className="w-full aspect-square md:px-8 px-0 py-4">
             <Radar data={chartData} options={chartOptions} />
           </div>
 
