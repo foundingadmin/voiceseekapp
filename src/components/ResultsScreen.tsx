@@ -157,13 +157,17 @@ export function ResultsScreen({ scores, userData, onRetake }: ResultsScreenProps
       {
         label: 'Your Voice Profile',
         data: values,
-        backgroundColor: 'hsla(var(--primary) / 0.2)',
+        backgroundColor: 'hsla(var(--primary) / 0.15)',
         borderColor: 'hsl(var(--primary))',
         borderWidth: 2,
         pointBackgroundColor: 'hsl(var(--primary))',
-        pointBorderColor: '#fff',
-        pointHoverBackgroundColor: '#fff',
+        pointBorderColor: 'hsl(var(--background))',
+        pointHoverBackgroundColor: 'hsl(var(--background))',
         pointHoverBorderColor: 'hsl(var(--primary))',
+        pointBorderWidth: 2,
+        pointHoverBorderWidth: 3,
+        pointRadius: 4,
+        pointHoverRadius: 6,
       },
     ],
   };
@@ -171,30 +175,63 @@ export function ResultsScreen({ scores, userData, onRetake }: ResultsScreenProps
   const chartOptions = {
     scales: {
       r: {
+        min: 0,
+        max: Math.max(maxScore + 1, 5),
         angleLines: {
           display: true,
-          color: 'rgba(255, 255, 255, 0.1)',
+          color: 'hsla(var(--muted-foreground) / 0.2)',
+          lineWidth: 1,
         },
         grid: {
-          color: 'rgba(255, 255, 255, 0.1)',
+          color: 'hsla(var(--muted-foreground) / 0.1)',
+          circular: true,
         },
         pointLabels: {
-          color: 'hsl(var(--foreground))',
+          color: 'hsl(var(--muted-foreground))',
           font: {
-            size: 12
-          }
+            size: 14,
+            family: 'system-ui',
+            weight: '500'
+          },
+          padding: 20,
         },
         ticks: {
           display: false,
           stepSize: 1,
         },
+        beginAtZero: true,
       },
     },
     plugins: {
       legend: {
         display: false,
       },
+      tooltip: {
+        backgroundColor: 'hsl(var(--background))',
+        titleColor: 'hsl(var(--foreground))',
+        bodyColor: 'hsl(var(--muted-foreground))',
+        borderColor: 'hsla(var(--border) / 0.5)',
+        borderWidth: 1,
+        padding: 12,
+        boxPadding: 6,
+        usePointStyle: true,
+        titleFont: {
+          size: 14,
+          weight: '600',
+          family: 'system-ui'
+        },
+        bodyFont: {
+          size: 12,
+          family: 'system-ui'
+        },
+        callbacks: {
+          title: (items: any[]) => items[0].label,
+          label: (item: any) => `Score: ${item.raw}`,
+        }
+      }
     },
+    responsive: true,
+    maintainAspectRatio: false,
   };
 
   return (
@@ -231,7 +268,7 @@ export function ResultsScreen({ scores, userData, onRetake }: ResultsScreenProps
             Your brand voice leans towards {topTraits.join(', ')}. {matchingArchetype.vibe}
           </p>
 
-          <div ref={chartRef} className="aspect-square max-w-md mx-auto mb-8 bg-background/50 backdrop-blur-sm p-4 rounded-xl">
+          <div ref={chartRef} className="h-[min(80vw,480px)] max-w-2xl mx-auto mb-8 bg-background/50 backdrop-blur-sm p-6 rounded-xl border border-border/50">
             <Radar data={chartData} options={chartOptions} />
           </div>
 
