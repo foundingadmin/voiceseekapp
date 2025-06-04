@@ -30,12 +30,14 @@ export default function App() {
         <div className="absolute inset-0 animated-gradient opacity-50" />
         <div className="absolute inset-0">
           <img
-            src="/Wave-Black.svg"
+            src="/wave-pattern.svg"
             alt=""
             className="absolute inset-0 w-full h-full object-cover"
             style={{
               mixBlendMode: 'soft-light',
-              opacity: 0.7
+              opacity: 0.7,
+              transform: 'scale(1.5)',
+              filter: 'blur(1px)'
             }}
           />
         </div>
