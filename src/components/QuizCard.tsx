@@ -28,7 +28,6 @@ export function QuizCard({ phrase, onSwipe }: QuizCardProps) {
       transition: { duration: 0.3 }
     });
     onSwipe(direction);
-    setActiveDirection(null);
   };
 
   const handleDragEnd = async (_: never, info: PanInfo) => {
@@ -53,8 +52,11 @@ export function QuizCard({ phrase, onSwipe }: QuizCardProps) {
     };
 
     window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
-  }, []);
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+      setActiveDirection(null);
+    };
+  }, [onSwipe]); // Add dependency on onSwipe
 
   const getBackgroundStyle = () => {
     const intensity = Math.min(Math.abs(dragX) / 100, 1) * 0.3;
