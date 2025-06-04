@@ -71,7 +71,7 @@ export function IntroScreen({ onStart }: IntroScreenProps) {
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      className="min-h-screen flex flex-col items-center justify-center p-6"
+      className="h-screen overflow-hidden flex flex-col items-center justify-center p-6"
     >
       <motion.div
         className="text-center max-w-lg"
