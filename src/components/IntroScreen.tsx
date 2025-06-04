@@ -87,10 +87,10 @@ export function IntroScreen({ onStart }: IntroScreenProps) {
           />
         </div>
         <h1 className="text-4xl font-bold mb-4">
-          Discover your brand's true voice in 3 minutes
+          Find your brand's voice in 3 minutes
         </h1>
         <p className="text-muted-foreground text-lg mb-8">
-          Swipe through our interactive quiz to uncover your unique brand voice archetype and get personalized recommendations.
+          Take our quick quiz to discover your brand voice archetype. Get personalized writing examples and recommendations to make your brand's voice stand out.
         </p>
 
         <form onSubmit={handleSubmit} className="max-w-sm mx-auto">
