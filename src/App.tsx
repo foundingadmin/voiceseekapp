@@ -25,18 +25,20 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-black text-gray-100 relative">
+    <div className="min-h-screen bg-background text-foreground relative overflow-hidden">
       <div className="fixed inset-0 z-0">
         <div 
-          className="w-full h-full"
+          className="absolute inset-0 w-full h-full"
           style={{
             backgroundImage: 'url(/background-02.gif)',
             backgroundSize: 'cover',
             backgroundPosition: 'center',
-            opacity: 0.2
+            opacity: 0.15
           }}
         />
-        <div className="absolute inset-0 bg-black bg-opacity-50" />
+        <div 
+          className="absolute inset-0 bg-gradient-to-b from-background/80 to-background/20 backdrop-blur-[1px]" 
+        />
       </div>
       <div className="relative z-10">
         {appState === 'intro' && <IntroScreen onStart={handleStart} />}
