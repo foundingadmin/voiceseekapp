@@ -260,7 +260,7 @@ export function ResultsScreen({ scores, userData, onRetake }: ResultsScreenProps
             Your brand voice leans towards {topTraits.join(', ')}. {matchingArchetype.vibe}
           </p>
 
-          <div ref={chartRef} className="aspect-square max-w-md mx-auto mb-8 bg-background/50 backdrop-blur-sm p-6 rounded-xl border border-border/50">
+          <div ref={chartRef} className="aspect-square max-w-2xl mx-auto mb-8 bg-background/50 backdrop-blur-sm p-8 rounded-xl border border-border/50">
             <Radar data={chartData} options={chartOptions} />
           </div>
 
