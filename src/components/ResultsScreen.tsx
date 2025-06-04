@@ -233,24 +233,28 @@ export function ResultsScreen({ scores, userData, onRetake }: ResultsScreenProps
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      className="min-h-screen py-12 px-4"
+      className="min-h-screen py-6 px-4"
     >
       <div className="max-w-3xl mx-auto">
         <div className="flex justify-between items-center mb-6">
-          <button
+          <motion.button
             onClick={onRetake}
-            className="flex items-center gap-2 text-primary hover:text-primary/80 transition-colors bg-secondary/50 backdrop-blur-sm px-4 py-2 rounded-full"
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            className="flex items-center gap-2 text-primary hover:text-primary/80 transition-colors bg-secondary/50 backdrop-blur-sm px-4 py-2 rounded-full group"
           >
-            <RefreshCw className="w-4 h-4" />
+            <RefreshCw className="w-4 h-4 group-hover:rotate-180 transition-transform duration-300" />
             <span>Retake Quiz</span>
-          </button>
-          <button
+          </motion.button>
+          <motion.button
             onClick={handleShare}
-            className="flex items-center gap-2 text-primary hover:text-primary/80 transition-colors bg-secondary/50 backdrop-blur-sm px-4 py-2 rounded-full"
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            className="flex items-center gap-2 text-primary hover:text-primary/80 transition-colors bg-secondary/50 backdrop-blur-sm px-4 py-2 rounded-full group"
           >
-            <Share2 className="w-4 h-4" />
+            <Share2 className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" />
             <span>Share on LinkedIn</span>
-          </button>
+          </motion.button>
         </div>
 
         <div className="bg-card/50 backdrop-blur-sm rounded-[2rem] shadow-[0_8px_32px_rgba(0,0,0,0.4)] p-8 mb-8 relative border border-border/50">
@@ -431,7 +435,6 @@ export function ResultsScreen({ scores, userData, onRetake }: ResultsScreenProps
       {selectedArchetype && (
         <div className="fixed inset-0 bg-background/80 backdrop-blur-sm flex items-center justify-center p-4 z-50">
           <motion.div
-            ref={modalRef}
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.95 }}
