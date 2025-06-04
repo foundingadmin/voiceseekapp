@@ -1,8 +1,34 @@
 import React from 'react';
 import { Download } from 'lucide-react';
 import { jsPDF } from 'jspdf';
+import { UserData } from '../types';
+import { archetypes } from '../data/archetypes';
 
-export function ResultsScreen({ archetype, phrases }) {
+interface ResultsScreenProps {
+  scores: Record<string, number>;
+  userData: UserData;
+  onRetake: () => void;
+}
+
+export function ResultsScreen({ scores, userData, onRetake }: ResultsScreenProps) {
+  // Find the archetype with the highest score
+  const determineArchetype = () => {
+    let maxScore = -1;
+    let selectedArchetype = archetypes[0];
+    
+    Object.entries(scores).forEach(([archetypeId, score]) => {
+      if (score > maxScore) {
+        maxScore = score;
+        selectedArchetype = archetypes.find(a => a.id === archetypeId) || archetypes[0];
+      }
+    });
+    
+    return selectedArchetype;
+  };
+
+  const selectedArchetype = determineArchetype();
+  const phrases = selectedArchetype.doWrite || [];
+
   const handleDownloadPDF = () => {
     const doc = new jsPDF();
     
@@ -11,7 +37,7 @@ export function ResultsScreen({ archetype, phrases }) {
     doc.text("Your Voice Archetype Results", 20, 20);
     
     doc.setFontSize(16);
-    doc.text(`Voice Archetype ${archetype}`, 20, 40);
+    doc.text(`Voice Archetype: ${selectedArchetype.name}`, 20, 40);
     
     doc.setFontSize(12);
     doc.text("Example Phrases", 20, 60);
@@ -31,7 +57,7 @@ export function ResultsScreen({ archetype, phrases }) {
         <h1 className="text-4xl font-bold mb-8">Your Results</h1>
         
         <div className="bg-gray-800 rounded-lg p-8 shadow-xl mb-8">
-          <h2 className="text-3xl font-semibold mb-6">Voice Archetype {archetype}</h2>
+          <h2 className="text-3xl font-semibold mb-6">Voice Archetype: {selectedArchetype.name}</h2>
           
           <div className="mb-8">
             <h3 className="text-2xl font-medium mb-4">Example Phrases</h3>
@@ -45,13 +71,22 @@ export function ResultsScreen({ archetype, phrases }) {
             </ul>
           </div>
           
-          <button
-            onClick={handleDownloadPDF}
-            className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg transition duration-200"
-          >
-            <Download size={20} />
-            Download Results PDF
-          </button>
+          <div className="flex gap-4">
+            <button
+              onClick={handleDownloadPDF}
+              className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg transition duration-200"
+            >
+              <Download size={20} />
+              Download Results PDF
+            </button>
+            
+            <button
+              onClick={onRetake}
+              className="bg-gray-600 hover:bg-gray-700 text-white px-6 py-3 rounded-lg transition duration-200"
+            >
+              Retake Quiz
+            </button>
+          </div>
         </div>
       </div>
     </div>
