@@ -1,5 +1,5 @@
 import { motion, PanInfo, useAnimation } from 'framer-motion';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { Phrase } from '../types';
 import { ArrowLeft, ArrowRight } from 'lucide-react';
 
@@ -10,9 +10,11 @@ interface QuizCardProps {
 
 export function QuizCard({ phrase, onSwipe }: QuizCardProps) {
   const controls = useAnimation();
+  const [dragX, setDragX] = useState(0);
 
   useEffect(() => {
     controls.start({ x: 0, opacity: 1, scale: 1 });
+    setDragX(0);
   }, [phrase]);
 
   const handleDragEnd = async (_: never, info: PanInfo) => {
@@ -30,6 +32,7 @@ export function QuizCard({ phrase, onSwipe }: QuizCardProps) {
     } else {
       controls.start({ x: 0, scale: 1 });
     }
+    setDragX(0);
   };
 
   const handleButtonClick = async (direction: 'left' | 'right') => {
@@ -42,6 +45,16 @@ export function QuizCard({ phrase, onSwipe }: QuizCardProps) {
     onSwipe(direction);
   };
 
+  const getBackgroundStyle = () => {
+    const intensity = Math.min(Math.abs(dragX) / 100, 1) * 0.3;
+    if (dragX > 0) {
+      return `rgba(34, 197, 94, ${intensity})`; // Green
+    } else if (dragX < 0) {
+      return `rgba(239, 68, 68, ${intensity})`; // Red
+    }
+    return 'rgba(255, 255, 255, 0.05)';
+  };
+
   return (
     <motion.div
       drag="x"
@@ -51,9 +64,15 @@ export function QuizCard({ phrase, onSwipe }: QuizCardProps) {
       animate={controls}
       initial={{ x: 300, opacity: 0, scale: 0.8 }}
       whileDrag={{ scale: 1.05 }}
+      onDrag={(_, info) => setDragX(info.offset.x)}
       className="w-full h-full flex items-center justify-center"
     >
-      <div className="w-full aspect-[3/4] bg-card/50 backdrop-blur-sm rounded-[2rem] shadow-[0_8px_32px_rgba(0,0,0,0.4)] p-8 border border-border/50 flex flex-col">
+      <div 
+        className="w-full aspect-[3/4] backdrop-blur-sm rounded-[2rem] shadow-[0_8px_32px_rgba(0,0,0,0.4)] p-8 border border-border/50 flex flex-col transition-colors"
+        style={{
+          backgroundColor: getBackgroundStyle(),
+        }}
+      >
         <div className="flex items-center gap-4 mb-8">
           <div className="size-3 rounded-full bg-primary/20 border border-primary/30" />
           <div className="text-sm text-muted-foreground font-medium">{phrase.contextLabel}</div>
