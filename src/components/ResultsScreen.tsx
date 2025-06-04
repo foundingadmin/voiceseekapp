@@ -157,7 +157,7 @@ export function ResultsScreen({ scores, userData, onRetake }: ResultsScreenProps
       {
         label: 'Your Voice Profile',
         data: values,
-        backgroundColor: 'hsla(var(--primary) / 0.15)',
+        backgroundColor: 'hsla(var(--foreground) / 0.15)',
         borderColor: 'hsl(var(--foreground))',
         borderWidth: 2,
         pointBackgroundColor: 'hsl(var(--foreground))',
@@ -179,12 +179,13 @@ export function ResultsScreen({ scores, userData, onRetake }: ResultsScreenProps
         max: Math.max(maxScore + 1, 5),
         angleLines: {
           display: true,
-          color: 'hsla(var(--foreground) / 0.2)',
+          color: 'hsla(var(--foreground) / 0.3)',
           lineWidth: 1,
         },
         grid: {
-          color: 'hsla(var(--foreground) / 0.15)',
+          color: 'hsla(var(--foreground) / 0.2)',
           circular: true,
+          lineWidth: 1,
         },
         pointLabels: {
           color: 'hsl(var(--foreground))',
@@ -198,6 +199,8 @@ export function ResultsScreen({ scores, userData, onRetake }: ResultsScreenProps
         ticks: {
           display: false,
           stepSize: 1,
+          backdropColor: 'transparent',
+          color: 'hsla(var(--foreground) / 0.7)',
         },
         beginAtZero: true,
       },
