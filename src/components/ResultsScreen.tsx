@@ -157,6 +157,7 @@ export function ResultsScreen({ scores, userData, onRetake }: ResultsScreenProps
       {
         label: 'Your Voice Profile',
         data: values,
+        fill: true,
         backgroundColor: 'hsla(var(--foreground) / 0.15)',
         borderColor: 'hsl(var(--foreground))',
         borderWidth: 2,
