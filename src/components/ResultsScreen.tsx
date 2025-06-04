@@ -3,7 +3,7 @@ import { Chart as ChartJS, RadialLinearScale, PointElement, LineElement, Filler,
 import { Radar } from 'react-chartjs-2';
 import { archetypes } from '../data/archetypes';
 import { TraitName, VoiceArchetype, UserData } from '../types';
-import { Download, ArrowRight, X, RefreshCw, Share2 } from 'lucide-react';
+import { Download, ArrowRight, X, RefreshCw, Share2, Info } from 'lucide-react';
 import { useState, useRef } from 'react';
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
@@ -62,6 +62,7 @@ function determineArchetype(scores: Record<string, number>): VoiceArchetype {
 
 export function ResultsScreen({ scores, userData, onRetake }: ResultsScreenProps) {
   const [selectedArchetype, setSelectedArchetype] = useState<VoiceArchetype | null>(null);
+  const [showAbout, setShowAbout] = useState(false);
   const [formStatus, setFormStatus] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle');
   const chartRef = useRef<HTMLDivElement>(null);
   const formRef = useRef<HTMLFormElement>(null);
@@ -414,6 +415,16 @@ export function ResultsScreen({ scores, userData, onRetake }: ResultsScreenProps
               <p className="text-muted-foreground text-sm">Bring it all to life through custom digital activations that reflect your unique voice and move audiences to act.</p>
             </div>
           </div>
+
+          <div className="flex justify-center mt-8 pt-8 border-t border-border/50">
+            <button
+              onClick={() => setShowAbout(true)}
+              className="flex items-center gap-2 text-primary hover:text-primary/80 transition-colors"
+            >
+              <Info className="w-4 h-4" />
+              <span>About VoiceSeek</span>
+            </button>
+          </div>
         </div>
       </div>
 
@@ -473,6 +484,65 @@ export function ResultsScreen({ scores, userData, onRetake }: ResultsScreenProps
                       </li>
                     ))}
                   </ul>
+                </div>
+              </div>
+            </div>
+          </motion.div>
+        </div>
+      )}
+
+      {showAbout && (
+        <div className="fixed inset-0 bg-background/80 backdrop-blur-sm flex items-center justify-center p-4 z-50">
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.95 }}
+            className="bg-card/50 backdrop-blur-sm rounded-[2rem] shadow-[0_8px_32px_rgba(0,0,0,0.4)] p-8 max-w-2xl w-full max-h-[90vh] overflow-y-auto relative border border-border/50"
+          >
+            <button
+              onClick={() => setShowAbout(false)}
+              className="absolute top-4 right-4 text-muted-foreground hover:text-foreground"
+            >
+              <X className="w-6 h-6" />
+            </button>
+
+            <h2 className="text-3xl font-bold mb-6">Why we built VoiceSeek</h2>
+            <p className="text-lg mb-6">Most voice and tone guides focus on rules. We focus on resonance.</p>
+
+            <div className="space-y-6 text-muted-foreground">
+              <p>
+                VoiceSeek was built for founders, marketers, and teams who want their brand to sound like it means something—without needing to decode industry jargon or generic tone wheels. Traditional guidelines often lack clarity, context, or connection to how people actually read and listen.
+              </p>
+
+              <p>
+                That's where VoiceSeek is different.
+              </p>
+
+              <p>
+                We built this quick, strategy-led tool to help you define your brand's voice through instinctive, side-by-side comparisons. Each answer shapes a tone profile that's practical, memorable, and rooted in how you want to be perceived. The result is a voice that isn't just documented—it's felt.
+              </p>
+
+              <p>
+                VoiceSeek doesn't just define tone. It helps your brand communicate with purpose.
+              </p>
+
+              <div className="pt-6 border-t border-border/50">
+                <p className="font-semibold mb-4">Need help shaping your brand's voice across messaging, design, and web?</p>
+                <div className="space-y-2">
+                  <a
+                    href="https://foundingcreative.com"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="block text-primary hover:text-primary/80 transition-colors"
+                  >
+                    Visit foundingcreative.com
+                  </a>
+                  <a
+                    href="mailto:admin@foundingcreative.com"
+                    className="block text-primary hover:text-primary/80 transition-colors"
+                  >
+                    Email us directly
+                  </a>
                 </div>
               </div>
             </div>
