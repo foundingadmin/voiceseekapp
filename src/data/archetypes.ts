@@ -31,7 +31,7 @@ export const archetypes: VoiceArchetype[] = [
       'Strategic insight meets elegant delivery',
       'We guide brands toward lasting impact',
       'Make decisions rooted in clarity',
-      'Precision isn\'t optional—it's our standard',
+      'Precision isn\'t optional—it\'s our standard',
       'Our thinking is measured, intentional, and proven'
     ],
     dontWrite: [
