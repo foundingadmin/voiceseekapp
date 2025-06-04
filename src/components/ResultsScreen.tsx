@@ -283,9 +283,9 @@ export function ResultsScreen({ scores, userData, onRetake }: ResultsScreenProps
         <div className="bg-card rounded-2xl shadow-xl p-8 border border-border/50">
           <div className="flex flex-col items-center text-center mb-8">
             <img 
-              src="/Founding-v1-Wordmark-white.svg" 
+              src="/Founding-v1-Brandmark-white.svg" 
               alt="Founding" 
-              className="h-8 mb-6"
+              className="w-16 mb-6"
             />
             <h3 className="text-2xl font-bold mb-4">Ready to bring your brand voice to life?</h3>
             <p className="text-muted-foreground max-w-xl mb-6">
@@ -306,7 +306,7 @@ export function ResultsScreen({ scores, userData, onRetake }: ResultsScreenProps
                   name="name"
                   placeholder="Your Name"
                   required
-                  className="w-full px-4 py-3 bg-background/50 backdrop-blur-sm border border-border/50 rounded-lg focus:ring-2 focus:ring-primary/20 focus:border-primary text-foreground placeholder:text-muted-foreground transition-all"
+                  className="w-full px-4 py-3 bg-background/50 backdrop-blur-sm border border-border/50 rounded-full focus:ring-2 focus:ring-primary/20 focus:border-primary text-foreground placeholder:text-muted-foreground transition-all"
                 />
               </div>
               
@@ -317,7 +317,7 @@ export function ResultsScreen({ scores, userData, onRetake }: ResultsScreenProps
                   defaultValue={userData.email}
                   placeholder="Your Email"
                   required
-                  className="w-full px-4 py-3 bg-background/50 backdrop-blur-sm border border-border/50 rounded-lg focus:ring-2 focus:ring-primary/20 focus:border-primary text-foreground placeholder:text-muted-foreground transition-all"
+                  className="w-full px-4 py-3 bg-background/50 backdrop-blur-sm border border-border/50 rounded-full focus:ring-2 focus:ring-primary/20 focus:border-primary text-foreground placeholder:text-muted-foreground transition-all"
                 />
               </div>
               
@@ -335,7 +335,7 @@ export function ResultsScreen({ scores, userData, onRetake }: ResultsScreenProps
                 <button 
                   onClick={handleDownload}
                   type="button"
-                  className="w-full flex items-center justify-center gap-2 bg-background text-primary border-2 border-primary px-6 py-3 rounded-lg hover:bg-secondary transition-colors"
+                  className="w-full flex items-center justify-center gap-2 bg-background text-primary border-2 border-primary px-6 py-3 rounded-full hover:bg-secondary transition-colors"
                 >
                   <Download className="w-5 h-5" />
                   Download Results
@@ -344,7 +344,7 @@ export function ResultsScreen({ scores, userData, onRetake }: ResultsScreenProps
                 <button 
                   type="submit"
                   disabled={formStatus === 'submitting'}
-                  className="w-full flex items-center justify-center gap-2 bg-primary text-primary-foreground px-6 py-3 rounded-lg shadow-[0_4px_24px_-4px_hsl(var(--primary)_/_0.3)] hover:shadow-[0_4px_32px_-4px_hsl(var(--primary)_/_0.4)] hover:bg-primary/90 transition-all disabled:opacity-50 disabled:pointer-events-none"
+                  className="w-full flex items-center justify-center gap-2 bg-primary text-primary-foreground px-6 py-3 rounded-full shadow-[0_4px_24px_-4px_hsl(var(--primary)_/_0.3)] hover:shadow-[0_4px_32px_-4px_hsl(var(--primary)_/_0.4)] hover:bg-primary/90 transition-all disabled:opacity-50 disabled:pointer-events-none"
                 >
                   {formStatus === 'submitting' ? (
                     'Sending...'
@@ -358,13 +358,13 @@ export function ResultsScreen({ scores, userData, onRetake }: ResultsScreenProps
               </div>
 
               {formStatus === 'success' && (
-                <div className="text-primary text-center">
+                <div className="text-green-400 text-center">
                   Thanks! We'll be in touch soon.
                 </div>
               )}
               
               {formStatus === 'error' && (
-                <div className="text-destructive text-center">
+                <div className="text-red-400 text-center">
                   Something went wrong. Please try again or email us directly.
                 </div>
               )}
