@@ -23,6 +23,9 @@
     --border: 240 3.7% 15.9%;
     --input: 240 3.7% 15.9%;
     --ring: 142.4 71.8% 29.2%;
+    --gradient-1: 16 100% 50%;
+    --gradient-2: 350 100% 60%;
+    --gradient-3: 0 100% 50%;
   }
 }
 
@@ -51,10 +54,10 @@
 .animated-gradient {
   background: radial-gradient(
     circle at top left,
-    hsl(var(--background)),
-    hsl(var(--card)) 25%,
-    hsl(var(--accent)) 50%,
-    hsl(var(--background)) 75%
+    hsl(var(--gradient-1) / 0.15),
+    hsl(var(--gradient-2) / 0.15) 45%,
+    hsl(var(--gradient-3) / 0.15) 75%,
+    hsl(var(--background))
   );
   background-size: 200% 200%;
   animation: gradient 15s ease infinite;

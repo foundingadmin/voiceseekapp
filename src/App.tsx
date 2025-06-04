@@ -27,7 +27,7 @@ export default function App() {
   return (
     <div className="min-h-screen bg-background text-foreground relative overflow-hidden">
       <div className="fixed inset-0 z-0">
-        <div className="absolute inset-0 animated-gradient opacity-20" />
+        <div className="absolute inset-0 animated-gradient" />
         <div className="absolute inset-0 opacity-10">
           <img
             src="/Wave-Black.svg"
