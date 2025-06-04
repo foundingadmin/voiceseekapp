@@ -53,21 +53,25 @@ export function QuizCard({ phrase, onSwipe }: QuizCardProps) {
       whileDrag={{ scale: 1.05 }}
       className="w-full h-full flex items-center justify-center"
     >
-      <div className="w-full aspect-[3/4] bg-gray-900 rounded-2xl shadow-xl p-8 border border-gray-800 flex flex-col">
-        <div className="text-sm text-gray-400 mb-6">{phrase.contextLabel}</div>
-        <div className="text-2xl font-medium text-gray-100 mb-auto">{phrase.optionA}</div>
+      <div className="w-full aspect-[3/4] bg-card/50 backdrop-blur-sm rounded-[2rem] shadow-[0_8px_32px_rgba(0,0,0,0.4)] p-8 border border-border/50 flex flex-col">
+        <div className="flex items-center gap-4 mb-8">
+          <div className="size-3 rounded-full bg-primary/20 border border-primary/30" />
+          <div className="text-sm text-muted-foreground font-medium">{phrase.contextLabel}</div>
+        </div>
+        
+        <div className="text-2xl font-medium mb-auto">{phrase.optionA}</div>
         
         <div className="grid grid-cols-2 gap-4 mt-8">
           <button
             onClick={() => handleButtonClick('left')}
-            className="flex items-center justify-center gap-2 text-gray-400 p-4 bg-gray-800/50 rounded-xl hover:bg-gray-800 transition-colors"
+            className="flex items-center justify-center gap-2 text-muted-foreground p-4 bg-secondary/50 backdrop-blur-sm rounded-xl hover:bg-secondary/80 transition-colors"
           >
             <ArrowLeft className="w-5 h-5" />
             <span>Not my vibe</span>
           </button>
           <button
             onClick={() => handleButtonClick('right')}
-            className="flex items-center justify-center gap-2 text-gray-400 p-4 bg-gray-800/50 rounded-xl hover:bg-gray-800 transition-colors"
+            className="flex items-center justify-center gap-2 text-muted-foreground p-4 bg-secondary/50 backdrop-blur-sm rounded-xl hover:bg-secondary/80 transition-colors"
           >
             <span>I like this</span>
             <ArrowRight className="w-5 h-5" />
