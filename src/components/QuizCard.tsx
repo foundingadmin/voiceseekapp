@@ -61,20 +61,20 @@ export function QuizCard({ phrase, onSwipe }: QuizCardProps) {
         
         <div className="text-2xl font-medium mb-auto">{phrase.optionA}</div>
         
-        <div className="grid grid-cols-2 gap-4 mt-8">
+        <div className="grid grid-cols-2 gap-3 mt-8">
           <button
             onClick={() => handleButtonClick('left')}
-            className="flex items-center justify-center gap-2 text-muted-foreground p-4 bg-secondary/50 backdrop-blur-sm rounded-xl hover:bg-secondary/80 transition-colors"
+            className="flex items-center justify-center gap-1.5 text-muted-foreground text-sm p-3 bg-secondary/50 backdrop-blur-sm rounded-xl hover:bg-secondary/80 transition-colors"
           >
-            <ArrowLeft className="w-5 h-5" />
-            <span>Not my vibe</span>
+            <ArrowLeft className="w-4 h-4 flex-shrink-0" />
+            <span className="whitespace-nowrap">Not my vibe</span>
           </button>
           <button
             onClick={() => handleButtonClick('right')}
-            className="flex items-center justify-center gap-2 text-muted-foreground p-4 bg-secondary/50 backdrop-blur-sm rounded-xl hover:bg-secondary/80 transition-colors"
+            className="flex items-center justify-center gap-1.5 text-muted-foreground text-sm p-3 bg-secondary/50 backdrop-blur-sm rounded-xl hover:bg-secondary/80 transition-colors"
           >
-            <span>I like this</span>
-            <ArrowRight className="w-5 h-5" />
+            <span className="whitespace-nowrap">I like this</span>
+            <ArrowRight className="w-4 h-4 flex-shrink-0" />
           </button>
         </div>
       </div>
