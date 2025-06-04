@@ -240,7 +240,7 @@ export function ResultsScreen({ scores, userData, onRetake }: ResultsScreenProps
               <h3 className="text-lg font-semibold mb-4">✍️ Write Like This:</h3>
               <ul className="space-y-3">
                 {matchingArchetype.doWrite.map((phrase, index) => (
-                  <li key={index} className="text-muted-foreground bg-success/5 border border-success/20 p-3 rounded-lg">
+                  <li key={index} className="text-muted-foreground bg-success/10 border border-success/30 p-3 rounded-lg">
                     "{phrase}"
                   </li>
                 ))}
@@ -427,7 +427,7 @@ export function ResultsScreen({ scores, userData, onRetake }: ResultsScreenProps
                   <h4 className="text-lg font-semibold mb-4">What to Say:</h4>
                   <ul className="space-y-3">
                     {selectedArchetype.doWrite.map((phrase, index) => (
-                      <li key={index} className="text-muted-foreground bg-success/5 border border-success/20 p-3 rounded-lg">
+                      <li key={index} className="text-muted-foreground bg-success/10 border border-success/30 p-3 rounded-lg">
                         "{phrase}"
                       </li>
                     ))}
