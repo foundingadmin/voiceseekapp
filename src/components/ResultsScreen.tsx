@@ -1,6 +1,4 @@
 import { motion } from 'framer-motion';
-import { Chart as ChartJS, RadialLinearScale, PointElement, LineElement, Filler, Tooltip, Legend } from 'chart.js';
-import { Radar } from 'react-chartjs-2';
 import { archetypes } from '../data/archetypes';
 import { TraitName, VoiceArchetype, UserData } from '../types';
 import { Download, ArrowRight, X, RefreshCw, Share2 } from 'lucide-react';
@@ -8,8 +6,6 @@ import { useState, useRef } from 'react';
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
 import emailjs from '@emailjs/browser';
-
-ChartJS.register(RadialLinearScale, PointElement, LineElement, Filler, Tooltip, Legend);
 
 interface ResultsScreenProps {
   scores: Record<string, number>;
@@ -63,12 +59,9 @@ function determineArchetype(scores: Record<string, number>): VoiceArchetype {
 export function ResultsScreen({ scores, userData, onRetake }: ResultsScreenProps) {
   const [selectedArchetype, setSelectedArchetype] = useState<VoiceArchetype | null>(null);
   const [formStatus, setFormStatus] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle');
-  const chartRef = useRef<HTMLDivElement>(null);
   const formRef = useRef<HTMLFormElement>(null);
   const modalRef = useRef<HTMLDivElement>(null);
   const traits = Object.keys(scores) as TraitName[];
-  const values = traits.map(trait => scores[trait]);
-  const maxScore = Math.max(...values);
 
   const topTraits = traits
     .map(trait => ({ trait, score: scores[trait] }))
@@ -151,98 +144,6 @@ export function ResultsScreen({ scores, userData, onRetake }: ResultsScreenProps
     pdf.save('voiceseek-results.pdf');
   };
 
-  const chartData = {
-    labels: traits,
-    datasets: [
-      {
-        label: 'Your Voice Profile',
-        data: values,
-        fill: true,
-        backgroundColor: 'hsla(var(--foreground) / 0.15)',
-        borderColor: 'hsl(var(--primary))',
-        borderWidth: 2,
-        pointBackgroundColor: 'hsl(var(--primary))',
-        pointBorderColor: 'hsl(var(--foreground))',
-        pointHoverBackgroundColor: 'hsl(var(--foreground))',
-        pointHoverBorderColor: 'hsl(var(--primary))',
-        pointBorderWidth: 2,
-        pointHoverBorderWidth: 3,
-        pointRadius: 5,
-        pointHoverRadius: 7,
-      },
-    ],
-  };
-
-  const chartOptions = {
-    scales: {
-      r: {
-        min: 0,
-        max: Math.max(maxScore + 1, 5),
-        angleLines: {
-          display: true,
-          color: 'hsla(var(--foreground) / 0.25)',
-          lineWidth: 1,
-        },
-        grid: {
-          color: 'hsla(var(--foreground) / 0.2)',
-          circular: true,
-          lineWidth: 1,
-        },
-        pointLabels: {
-          color: 'hsl(var(--foreground))',
-          font: {
-            size: 16,
-            family: 'system-ui',
-            weight: '600'
-          },
-          padding: 24,
-        },
-        ticks: {
-          display: true,
-          stepSize: 1,
-          backdropColor: 'transparent',
-          color: 'hsla(var(--foreground) / 0.8)',
-          font: {
-            size: 12,
-          },
-          count: maxScore + 1,
-        },
-        beginAtZero: true,
-      },
-    },
-    plugins: {
-      legend: {
-        display: false,
-      },
-      tooltip: {
-        enabled: true,
-        backgroundColor: 'hsl(var(--background))',
-        titleColor: 'hsl(var(--foreground))',
-        bodyColor: 'hsl(var(--foreground))',
-        borderColor: 'hsl(var(--border))',
-        borderWidth: 1,
-        padding: 12,
-        boxPadding: 6,
-        usePointStyle: true,
-        titleFont: {
-          size: 14,
-          weight: '600',
-          family: 'system-ui'
-        },
-        bodyFont: {
-          size: 12,
-          family: 'system-ui'
-        },
-        callbacks: {
-          title: (items: any[]) => items[0].label,
-          label: (item: any) => `Score: ${item.raw}`,
-        }
-      }
-    },
-    responsive: true,
-    maintainAspectRatio: false,
-  };
-
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -276,10 +177,6 @@ export function ResultsScreen({ scores, userData, onRetake }: ResultsScreenProps
           <p className="text-muted-foreground mb-8">
             Your brand voice leans towards {topTraits.join(', ')}. {matchingArchetype.vibe}
           </p>
-
-          <div ref={chartRef} className="h-[min(90vh,600px)] w-full max-w-2xl mx-auto mb-8 bg-background/50 backdrop-blur-sm p-8 rounded-xl border border-border/50">
-            <Radar data={chartData} options={chartOptions} />
-          </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
             <div>
