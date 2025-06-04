@@ -157,13 +157,13 @@ export function ResultsScreen({ scores, userData, onRetake }: ResultsScreenProps
       {
         label: 'Your Voice Profile',
         data: values,
-        backgroundColor: 'rgba(34, 197, 94, 0.2)',
-        borderColor: 'rgba(34, 197, 94, 1)',
+        backgroundColor: 'rgba(217, 140, 255, 0.2)',
+        borderColor: 'rgba(217, 140, 255, 1)',
         borderWidth: 2,
-        pointBackgroundColor: 'rgba(34, 197, 94, 1)',
+        pointBackgroundColor: 'rgba(217, 140, 255, 1)',
         pointBorderColor: '#fff',
         pointHoverBackgroundColor: '#fff',
-        pointHoverBorderColor: 'rgba(34, 197, 94, 1)',
+        pointHoverBorderColor: 'rgba(217, 140, 255, 1)',
       },
     ],
   };
