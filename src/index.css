@@ -46,25 +46,13 @@
   0% {
     background-position: 0% 0%;
   }
-  20% {
-    background-position: 25% 25%;
-  }
-  40% {
-    background-position: 50% 50%;
-  }
-  60% {
-    background-position: 75% 75%;
-  }
-  80% {
-    background-position: 100% 100%;
-  }
   100% {
-    background-position: 0% 0%;
+    background-position: 200% 200%;
   }
 }
 
 .animated-gradient {
-  background: radial-gradient(
+  background: repeating-radial-gradient(
     circle at top left,
     hsl(var(--gradient-1) / 0.2),
     hsl(var(--gradient-2) / 0.2) 35%,
@@ -74,5 +62,5 @@
     hsl(var(--background))
   );
   background-size: 200% 200%;
-  animation: gradient 20s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+  animation: gradient 15s linear infinite;
 }
