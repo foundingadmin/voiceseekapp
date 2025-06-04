@@ -54,9 +54,9 @@
 .animated-gradient {
   background: radial-gradient(
     circle at top left,
-    hsl(var(--gradient-1) / 0.3),
-    hsl(var(--gradient-2) / 0.3) 45%,
-    hsl(var(--gradient-3) / 0.3) 75%,
+    hsl(var(--gradient-1) / 0.2),
+    hsl(var(--gradient-2) / 0.2) 45%,
+    hsl(var(--gradient-3) / 0.2) 75%,
     hsl(var(--background))
   );
   background-size: 200% 200%;

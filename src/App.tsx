@@ -27,7 +27,7 @@ export default function App() {
   return (
     <div className="min-h-screen bg-background text-foreground relative overflow-hidden">
       <div className="fixed inset-0 z-0">
-        <div className="absolute inset-0 animated-gradient opacity-70" />
+        <div className="absolute inset-0 animated-gradient opacity-50" />
         <div className="absolute inset-0">
           <img
             src="/Wave-Black.svg"
@@ -35,7 +35,7 @@ export default function App() {
             className="absolute inset-0 w-full h-full object-cover"
             style={{
               mixBlendMode: 'soft-light',
-              opacity: 0.5
+              opacity: 0.7
             }}
           />
         </div>
